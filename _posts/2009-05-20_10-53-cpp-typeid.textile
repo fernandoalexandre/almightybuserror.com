@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Snippet.Cpp: Comparing Types of Classes"
+tags:
+- Snippet
+- Cpp
+- typeid
+---
+
+This snippet shows how to differentiate between two classes that have heritage from the same class.
+
+Using the following classes:
+
+<pre><code class="prettyprint lang-cpp">class A {}
+class B: public A { B(); }
+class C: public A { C(); }
+</code></pre>
+
+With the following variables:
+
+<pre><code class="prettyprint lang-cpp">A a;
+A *b = new B();
+A *c = new C();
+if(typeid(b) == typeid(a))
+    cout << "First is true" << endl; // A* != A
+if(typeid(*b) == typeid(B))
+    cout << "Second is true" << endl; // B = B
+if(typeid(*b) == typeid(*c))
+    cout << "Third is true" << endl; // B != C
+if(typeid(b) == typeid(c))
+    cout << "Fourth is true" << endl; // A* = A*
+</code></pre>
+
+The pointer usage is important when using the *typeid*() in this situation.
+
+As you might notice you can actually use the class name to compare like in the second example and not just objects.
+
+*Note*: There is a _name_() method that can be used to print the class name. You might notice that there sometimes are pseudo-random numbers/letters before the actual name.

@@ -1,0 +1,53 @@
+---
+layout: post
+title: "Threading in Java"
+tags:
+- Threading
+- Java
+---
+
+A thread is a lightweight process that will act as the child of the process that created it. If the parent process is interrupted the child will be inherited by the kernel process, however, most of the times when the parent dies and child loses its purpose.
+A thread will seemingly run at the same time as the other processes which raises concurrency issues but this won't be discussed in this article.
+
+Threading in a Java implementation can be made by two ways: extending the _Thread_ object and implementing the _Runnable_ interface.
+
+To create a thread in either way it is needed to implement the _run_() method. Run will be the entry execution point when a thread is created.
+
+h3. Extending Thread object
+
+<pre><code class="prettyprint lang-java">public class DummyThreadable extends Thread 
+{
+    DummyThreadable() { ; } //dummy constructor.
+    public void Run()
+    {
+        //do some threaded stuff.
+    }
+}</code></pre>
+
+To create a thread and run it use the *start* method like the following:
+
+<pre><code class="prettyprint lang-java">new DummyThreadable().start();</code></pre>
+
+h3. Implementing Runnable interface
+
+<pre><code class="prettyprint lang-java">public class DummyThreadable implements Runnable 
+{
+    DummyThreadable() { ; } //dummy constructor.
+    public void Run()
+    {
+        //do some threaded stuff.
+    }
+}</code></pre>
+
+To create a thread using a class that implements Runnable use the following example:
+
+<pre><code class="prettyprint lang-java">DummyThreadable t = new DummyThreadable();
+new Thread(t).start();</code></pre>
+
+A very useful method for thread programing is the sleep method. It receives a time in milliseconds (and optionally nanoseconds). It makes a thread stop its execution flow for the defined time.
+
+<pre><code class="prettyprint lang-java">long ms = 9001;
+int ns = 901;
+Thread.sleep(ms, ns);</code></pre>
+
+Thank you for reading!

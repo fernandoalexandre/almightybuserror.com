@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Ricardo Martins | Computer Scientist</title>
+
+	<meta name="keywords" content="Ricardo Martins, resume, curriculum, curriculum vitae" />
+	<meta name="description" content="Ricardo Martins' resume" />
+
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="/css/resume.css" media="all" />
+<script type="text/javascript">
+/*
+ * (C)opyright 2009 Ricardo Martins
+ * Licensed under the MIT/X11 License.
+ */
+
+/* De-obfuscates a ROT13 encrypted and html ascii entity string */
+function deobfuscate(email) {
+    var s = "";
+    var bleh = email.replace(/&#/g, "").split(";");
+    for (i = 0; i < bleh.length; i++)
+        s += (String.fromCharCode(bleh[i]));
+    s = s.replace(/[a-zA-Z]/g, function(c){
+            return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);});
+    return s;
+}
+
+/* Sets the href of the 'a' element with id = 'special' to my de-obfuscated email */
+function setHref() {
+    /* Use your own email pre-encoded (ROT13 + html ascii entity) */
+    var str1 = "&#122;&#110;&#118;&#121;&#103;&#98;&#58;";
+    var str2 = "&#122;&#114;";
+    var str3 = "&#64;";
+    var str4 = "&#101;&#118;&#112;&#110;&#101;&#113;&#98;&#122;&#110;&#101;&#103;&#118;&#97;&#102;&#46;&#112;&#112";
+    var places = document.getElementsByClassName('email');
+	for (var i = 0; i < places.length; i++) {
+		places[i].href = deobfuscate(str1+str2+str3+str4);
+		places[i].innerHTML = deobfuscate(str2+str3+str4);
+	}
+}
+
+/* Use 'onload' the right way, use events! */
+/* http://onlinetools.org/articles/unobtrusivejavascript/chapter4.html */
+function addEvent(obj, evType, fn){
+    if (obj.addEventListener){
+        obj.addEventListener(evType, fn, false);
+        return true;
+    } else if (obj.attachEvent){
+        var r = obj.attachEvent("on"+evType, fn);
+        return r;
+    } else {
+        return false;
+    }
+}
+addEvent(window, 'load', setHref);
+</script>
+</head>
+<body>
+
+<div id="doc2" class="yui-t7">
+	<div id="inner">
+
+		<div id="hd">
+			<div class="yui-gc">
+				<div class="yui-u first">
+					<h1>Ricardo Martins</h1>
+					<h2>Computer Scientist</h2>
+				</div>
+
+				<div class="yui-u">
+					<div class="contact-info">
+						<!--<h3><a id="pdf" href="#">Download PDF</a></h3>-->
+						<h3><a class="email" href="#">me [at] ricardomartins [dot] cc</a></h3>
+						<h3><a href="http://ricardomartins.cc">http://ricardomartins.cc</a></h3>
+						<h3>(+351) - 96 547 8670</h3>
+					</div><!--// .contact-info -->
+				</div>
+			</div><!--// .yui-gc -->
+		</div><!--// hd -->
+
+		<div id="bd">
+			<div id="yui-main">
+				<div class="yui-b">
+
+					<div class="yui-gf">
+						<div class="yui-u first">
+							<h2>Profile</h2>
+						</div>
+						<div class="yui-u">
+							<p class="enlarge">
+								Wocka wocka wocka.
+							</p>
+						</div>
+					</div><!--// .yui-gf -->
+
+					<div class="yui-gf">
+						<div class="yui-u first">
+							<h2>Skills</h2>
+						</div>
+						<div class="yui-u">
+
+								<div class="talent">
+									<h2>Polymath</h2>
+									<p>Interested in many distinct fields, such as Psychology, Biology, Physics, Neurology and Medicine.</p>
+								</div>
+
+								<div class="talent">
+									<h2>Computer Security</h2>
+									<p>Finding and fixing security flaws in complex systems.</p>
+								</div>
+
+								<div class="talent">
+									<h2>Game Developer</h2>
+									<p>Because part of the fun in videogames is creating them.</p>
+								</div>
+						</div>
+					</div><!--// .yui-gf -->
+
+					<div class="yui-gf">
+						<div class="yui-u first">
+							<h2>Technical</h2>
+						</div>
+						<div class="yui-u">
+							<ul class="talent">
+								<li>Assembly (x86)</li>
+								<li>C</li>
+								<li>C++</li>
+								<li>Haskell</li>
+								<li>Java</li>
+								<li>Javascript</li>
+								<li>Lua</li>
+								<li>OCaml</li>
+								<li>Python</li>
+								<li>Ruby</li>
+								<li class="last">Shell Script (bash, zsh)</li>
+							</ul>
+
+							<ul class="talent">
+								<li>Git</li>
+								<li>Mercurial</li>
+								<li class="last">Subversion</li>
+							</ul>
+
+							<ul class="talent">
+								<li>Linux</li>
+								<li>OS X</li>
+								<li class="last">Windows XP</li>
+							</ul>
+						</div>
+					</div><!--// .yui-gf-->
+
+					<div class="yui-gf">
+
+						<div class="yui-u first">
+							<h2>Experience</h2>
+						</div><!--// .yui-u -->
+
+						<div class="yui-u">
+
+							<div class="job last">
+								<h2><abbr title="Faculdade de Ciências e Tecnologia">FCT</abbr> &mdash;
+									Universidade Nova de Lisboa</h2>
+								<h3>Research Assistant</h3>
+								<h4>2009</h4>
+								<p>Worked on an IBM Cell abstraction layer.</p>
+							</div>
+
+						</div><!--// .yui-u -->
+					</div><!--// .yui-gf -->
+
+					<div class="yui-gf">
+
+						<div class="yui-u first">
+							<h2>Projects</h2>
+						</div><!--// .yui-u -->
+
+						<div class="yui-u">
+
+							<div class="job">
+								<h2>redshell</h2>
+								<h4>2008-Current</h4>
+								<p>Author and main developer of a light and
+								simple UNIX shell.</p>
+							</div>
+
+							<div class="job">
+								<h2>ticktock</h2>
+								<h4>2008-Current</h4>
+								<p>Author and main developer of a light and
+								secure client for retrieving the date and time
+								from other machines, using the TIME protocol (RFC 868).</p>
+							</div>
+
+							<div class="job last">
+								<h2>apathy engine</h2>
+								<h4>2008-Current</h4>
+								<p>Designed, developed and launched a blogging engine, powered by the Django framework.</p>
+							</div>
+
+						</div><!--// .yui-u -->
+					</div><!--// .yui-gf -->
+
+
+					<div class="yui-gf last">
+						<div class="yui-u first">
+							<h2>Education</h2>
+						</div>
+						<div class="yui-u job">
+							<h2>Faculdade de Ciências e Tecnologia - Universidade Nova de Lisboa</h2>
+							<h3>BsC in Computer Science, 2007 &mdash; 2010 (expected)</h3>
+						</div>
+						<div class="yui-u">
+							<h2>Faculdade de Ciências e Tecnologia - Universidade Nova de Lisboa</h2>
+							<h3>BsC+MSc (joint degree) in Biomedical Engineering, 2006 &mdash; 2007</h3>
+						</div>
+					</div><!--// .yui-gf -->
+
+
+				</div><!--// .yui-b -->
+			</div><!--// yui-main -->
+		</div><!--// bd -->
+
+		<div id="ft">
+			<p>Ricardo Martins &mdash; <a class="email" href="#">me [at] ricardomartins [dot] cc</a> &mdash; (+351) - 96 547 8670</p>
+		</div><!--// footer -->
+
+	</div><!-- // inner -->
+
+
+</div><!--// doc -->
+
+
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+echo "--- Removing cruft ---"
+rm -r _site
+echo "--- Generating site ---"
+jekyll && cp .htstatic _site/
+echo "--- Compressing static files ---"
+if [[ -x `which 7za` ]]; then
+    find _site \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.xml" \) -type f -exec /bin/sh -c "7za a -mx=9 '{}'.gz '{}'" \;
+else
+    find _site \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.xml" \) -type f -exec /bin/sh -c "gzip -9 -c '{}' > '{}.gz'" \;
+fi;
+echo "--- Uploading site ---"
+rsync -avz --delete _site/ almightybuserror.com:/home/public/

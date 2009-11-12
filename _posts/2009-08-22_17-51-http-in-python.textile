@@ -1,0 +1,41 @@
+---
+layout: post
+title: "HTTP in Python"
+tags:
+- HTTP
+- Python
+---
+
+To create and HTTP(Hyper Text Transfer Protocol) connection we use the "httplib":http://docs.python.org/library/httplib.html module which provides some simple yet effective methods to create a connection and send requests to an HTTP(Hyper Text Transfer Protocol) server. The module "urllib":http://docs.python.org/library/urllib.html can also be used and is easier, does, however only perform *GET* requests (explained in a future post).
+
+h3. Creating a connection
+
+To create a connection, the method _HTTPConnection_ does the job. For example:
+
+<pre><code class="prettyprint lang-python">import httplib
+try:
+    http = httplib.HTTPConnection('almightybuserror.com')
+except:
+    print 'Could not connect...'
+    return</code></pre>
+
+h3. Sending a request
+
+To send a request, a connection object is needed (we'll use _http_ from the previous example):
+
+<pre><code class='prettyprint lang-python'>http.request("GET", "/")</code></pre>
+
+h3. Getting a response
+
+To obtain a response, the _getResponse()_ method is used. From this method we get a "HTTPResponse":http://docs.python.org/library/httplib.html#httpresponse-objects object.
+
+<pre><code class='prettyprint lang-python'>response = http.getResponse()
+if response.status == httplib.OK:
+    file = open('example.html', 'w')
+    file.write(response.read())
+    file.close()
+else:
+    print 'Error: %s %s' % (response.status, response.reason)
+    return</code></pre>
+
+For a more complete example check _downloader.py_ in "github":http://github.com/kernl/Scripts-and-Tools/tree/master.

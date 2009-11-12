@@ -1,0 +1,141 @@
+---
+layout: post
+title: "HTTP Proxy: Implementation"
+tags:
+- Introduction
+- Proxy
+- HTTP
+- Java
+---
+
+Continuing from ""Concept Introduction":http://almightybuserror.com/post/107781290/http-proxy-concept-introduction" we will now see how a possible implementation is done.
+
+To start implementing a proxy we must first create a simple server application which accepts a connection from a client to be redirected.
+
+h3. Creating Server
+
+We start by creating a ServerSocket (for more information go "here":http://almightybuserror.com/post/95514996/the-connection-oriented-network-protocol).
+
+<pre><code class="prettyprint lang-java">doIt( new ServerSocket( serverPort ) );</code></pre>
+
+Now we need to implement the method _doIt_() which simply uses a non-stopping cycle to take requests.
+
+<pre><code class="prettyprint lang-java">public static void doIt( ServerSocket server )
+{
+    for(;;)
+    {
+        try
+        {
+            Socket request = server.accept();
+            new RequestHandler( request ).start();
+        }
+        catch( IOException e )
+        {   e.printStackTrace(); continue;  }
+    }
+}</code></pre>
+
+h3. Creating a RequestHandler
+
+The object _RequestHandler_ is the one that actually does all the work for _one_ request. Because of that we thread it (more information "here":http://almightybuserror.com/post/104704332/threading-in-java) so that the proxy can handle multiple requests at once. The utility functions used here are located at the end of the post.
+
+The code to convert the request to HTTP/1.0 is as follows:
+
+<pre><code class="prettyprint lang-java">InputStream srcIs = source.getInputStream();
+String req = readLine(srcIs);
+Scanner head = new Scanner(req);
+String request = head.next();
+String[] link = parseUrl(head.next());
+if(link[0].compareTo("http") != 0)
+    throw new IOException("Incompatible Protocol");
+
+request += String.format(" %s HTTP/1.0\r\n", link[3]);
+String[] currentProperty = parseHttpHeader( readLine(srcIs) );
+while(currentProperty != null)
+{
+    if(isBanned(currentProperty))
+    {
+        currentProperty = parseHttpHeader( readLine(srcIs) );
+        continue;
+    }
+    request += String.format("%s:%s\r\n", currentProperty[0],
+                                                    currentProperty[1]);
+    currentProperty = parseHttpHeader( readLine(srcIs) );
+}
+request += "\r\n"; // Add last CRLF</code></pre>
+
+The function _isBanned_ is the filter for properties from HTTP/1.1:
+
+<pre><code class="prettyprint lang-java">private boolean isBanned(String[] property)
+{
+    return property[0].compareTo("Connection") == 0 ||
+        property[0].compareTo("Keep-Alive") == 0 ||
+        property[0].compareTo("Proxy-Connection") == 0;
+}</code></pre>
+
+Now that the request is ready, the only thing needed to be done, is to send the request and then dump the whole response from the server to the client.
+
+<pre><code class="prettyprint lang-java">InetAddress host = InetAddress.getByName(link[1]);
+Socket destination = new Socket(host, Integer.parseInt(link[2]) );
+OutputStream destOs = destination.getOutputStream();
+InputStream destIs = destination.getInputStream();
+destOs.write(request.getBytes());
+dumpStream(destIs, source.getOutputStream());
+destination.close();
+source.close();</code></pre>
+
+Note: _source_ is a socket that is passed in the _RequestHandler_ constructor.
+
+h4. Utility Functions
+
+The _parseHttpHeader_ function parses the properties that a normal HTTP request has so we can easily remove the properties that are exclusive to HTTP1.1.
+
+<pre><code class="prettyprint lang-java">public static String[] parseHttpHeader( String header )
+{
+    String[] result = new String[2];
+    int pos0 = header.indexOf( ':' );
+    if( pos0 == -1 )
+        return null;
+    result[0] = header.substring( 0, pos0 ).trim();
+    result[1] = header.substring( pos0 + 1 ).trim();
+    return result;
+}</code></pre>
+
+The _readLine_ function keeps reading from a InputStream until it reaches a       "\r\n".
+
+<pre><code class="prettyprint lang-java">public static String readLine( InputStream is ) throws IOException
+{
+    StringBuffer sb = new StringBuffer();
+    int c;
+    while( (c = is.read() ) >= 0 ) {
+        if( c == '\r' ) continue;
+        if( c == '\n' ) break ;
+        sb.append( new Character( (char)c ) );
+    }
+    return sb.toString();
+}</code></pre>
+
+The _parseUrl_ function parses a header, for example "http://almightybuserror.com:5000/stuff/here/" will be transformed to:
+["http", "almightybuserror.com", "5000", "/stuff/here/"].
+
+<pre><code class="prettyprint lang-java">public static String[] parseUrl(String url)
+{
+    String result[] = new String[4];
+    int i = url.indexOf(':');
+    result[0] = url.substring(0, i); // Protocol
+    result[1] = url.substring(i+3);
+    i = result[1].indexOf(':'); // Get possibly a port number
+    int j = result[1].indexOf('/');
+    // To parse the rest of the request
+    result[2] = (i > 0 ? result[1].substring(i+1, j) : "80");
+    result[3] = result[1].substring(j); // Request
+    result[1] = (i > 0 ? result[1].substring(0, i) :
+                                result[1].substring(0, j));
+    //Concat so only the host remains
+    return result;
+}</code></pre>
+
+The _dumpStream_ function will also be used, you can find it "here":http://almightybuserror.com/post/109924240/snippet-java-dump-inputstream-outputstream.
+
+Thank you for reading. Comments are welcome!
+
+*Note*: Credits for the functions _readLine_ and _parseHttpHeader_ go to "ASC Department":http://asc.di.fct.unl.pt/.

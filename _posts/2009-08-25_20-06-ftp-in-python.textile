@@ -1,0 +1,59 @@
+---
+layout: post
+title: "FTP in Python"
+tags:
+- FTP
+- Python
+---
+
+In Python, to create and maintain a FTP(File Transfer Protocol) communication, the "ftplib":http://docs.python.org/library/ftplib.html or "urllib":http://docs.python.org/library/urllib.html (explained in a future post) can be used.
+
+h3. Creating a FTP(File Transfer Protocol) connection
+
+<pre><code class="prettyprint lang-python">from ftplib import FTP
+try:
+    conn = FTP('almightybuserror.com')
+except:
+    print "Could not connect to almightybuserror.com."
+    return</code></pre>
+
+h3. Logging in...
+
+For anonymous log in:
+
+<pre><code class="prettyprint lang-python">try:
+    conn.login()
+except:
+    print "No anonymous connections allowed."
+    return
+</code></pre>
+
+Otherwise:
+
+<pre><code class="prettyprint lang-python">try:
+    conn.login(user, passwd)
+    print conn.getwelcome()
+except:
+    print "Wrong username or password."
+    return
+</code></pre>
+
+h3. Sending commands and handling response.
+
+To send commands (or requests) to the server there is a method for each command which can be consulted "here":http://docs.python.org/library/ftplib.html#ftp-objects, however I will show an example of an binary file download request.
+
+<pre><code class="prettyprint lang-python">try:
+    conn.cwd('/stuff/more/misc/stuff/')
+except:
+    print "No such folder!"
+    return
+file = open('stuff', 'w')
+try: # file.write acts as a function pointer
+    conn.retrbinary('RETR stuff', file.write) 
+except:
+    print "Couldn't download stuff..."
+finally:
+    file.close()
+</code></pre>
+
+Check _downloader.py_ in "github":http://github.com/kernl/Scripts-and-Tools/tree/master for a more complete example.

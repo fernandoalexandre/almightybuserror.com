@@ -1,0 +1,53 @@
+---
+layout: post
+title: "The connectionless networking protocol"
+tags:
+- Introduction
+- Java
+- UDP
+---
+
+Also known as UDP(User Datagram Protocol), like the title suggests, it does not have a logical idea of connection.
+
+The way it communicates is by _datagrams_ (or _messages_). The protocol is not able assert any type of confirmation at a transport layer level if a message got thru to the destination. A collateral effect of this is that UDP is a very lightweight protocol, perfect for scenarios where the loss of some information does not break the intended application.
+
+In Java, to implement UDP(User Datagram Protocol) communication it's mostly used the following two objects from the java.net.* package: _DatagramPacket_ and _DatagramSocket_.
+
+The DatagramPacket is used to create a datagram that will be received or sent and configure destination/port in the latter:
+
+<pre><code class="prettyprint lang-java">DatagramPacket packet = new DatagramPacket(
+someString.getBytes(), someString.length() );</code></pre>
+
+To configure the destination of the datagram the following methods are used:
+
+<pre><code class="prettyprint lang-java">packet.setAddress( InetAddress.<i>getByName</i>( someServerName ) );
+packet.setPort( port );</code></pre>
+
+InetAddress._getByName_ is an static method that given a server name like "www.google.com" returns the IP address.
+
+A DatagramPacket can be used to send any type of message that has been converted to an array of _byte_. There is, however, an UDP protocol *65,507* byte limit to the size of the array.
+
+To extract the information from a received packet the following methods are used:
+
+<pre><code class="prettyprint lang-java">byte[] info = packet.getData();
+int infoLength = packet.getLength();</code></pre>
+
+
+A DatagramSocket is initialized using the constructor that receives a port which will be used for sending and receiving datagrams:
+
+<pre><code class="prettyprint lang-java">DatagramSocket socket = new DatagramSocket( port );</code></pre>
+
+The methods used by this object are: 
+
+<pre><code class="prettyprint lang-java">socket.send( DatagramPacket x );
+socket.receive( DatagramPacket x );</code></pre>
+
+The receive method is blocking, it will block the current execution flow until it has received a message. 
+To receive a packet, it doesn't make sense to configure a destination and a port, only a buffer to where the data will be stored like in the declaration of the packet object. 
+Since all the complex ( i.e. Object ) argument passing is by reference, the received packet will overwrite all the information in x.
+
+For more information on UDP(User Datagram Protocol) go "here":http://en.wikipedia.org/wiki/User_Datagram_Protocol.
+
+Hope this has been useful.
+
+Thank you for reading!

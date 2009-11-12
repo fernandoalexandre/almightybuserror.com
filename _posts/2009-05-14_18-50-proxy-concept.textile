@@ -1,0 +1,36 @@
+---
+layout: post
+title: "HTTP Proxy: Concept introduction"
+tags:
+- Introduction
+- Proxy
+- HTTP
+---
+
+An HTTP(Hyper Text Transfer Protocol) proxy is a program that acts as a seamless server (since the user does not notice its existence under normal circumstances) and forwards HTTP(Hyper Text Transfer Protocol) traffic.
+
+A problem for people that are creating a proxy for learning purposes is that most browsers nowadays days use HTTP/1.1 which is far more complex than its HTTP/1.0 counterpart implementation-wise. For this very reason we will convert every HTTP/1.1 requests to HTTP/1.0.
+
+For a browser using HTTP/1.0 to fetch a webpage, it first needs to establish a connection with the webserver and use a "GET" command on the index (or another page if specified). When it finishes receiving and processing that page, the browser identifies every resource the page uses (be it images, scripts or _Cascading Style Sheets_). For each resource it needs, the browser creates a connection and sends a request. The webserver closes the connection after it finishes sending the resource.
+
+The proxy will work like the following:
+!http://i40.tinypic.com/wgu7h1.png!
+
+A browser using HTTP/1.1 does, however use _pipelining_ and persistent connections, which after requesting and receiving the webpage the server does not close the connection, and can keeps receiving requests from the browser for resources avaiable locally until the client closes the connection (by using the _Connection_ property with *keep-alive* value).
+
+For the proxy to convert the request headers to HTTP/1.0 it is needed to read and modify them, removing some fields from the HTTP/1.1 request.
+
+For our purposes we will remove "_Connection_" and the non-obligatory "_Keep-Alive_" and "_Proxy-Connection_" properties since they are unique to HTTP/1.1 and change the protocol version from the header. Every line of a HTTP request and response ends using two special characters "\r\n".
+
+Example:
+
+<pre><code class="prettyprint">GET http://almightybuserror.com/ HTTP/1.1
+Connection: keep-alive</code></pre>
+
+And this last request gets converted and sent to the server "http://almightybuserror.com" as:
+
+<pre><code class="prettyprint">GET / HTTP/1.0</code></pre>
+
+*Note*: There needs to exist an extra "\r\n" at the end of the request since it is the only way the server involved knows that the request has ended.
+
+Thank for reading. Comments are welcome.

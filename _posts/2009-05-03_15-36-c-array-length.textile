@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Snippet.C: Getting the length of an array."
+tags:
+- Snippet
+- C
+---
+
+The following C macro gets the amount of memory the array uses and divides it by the size of the first position:
+
+<pre><code class="prettyprint lang-c">#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])</code></pre>
+
+Credits go to "meqif":http://scarybox.net/.

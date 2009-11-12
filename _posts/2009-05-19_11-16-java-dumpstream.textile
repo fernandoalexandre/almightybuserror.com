@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Snippet.Java: Dump InputStream &rarr; OutputStream"
+tags:
+- Snippet
+- Java
+---
+
+This piece of code keeps reading 1024 bytes from the _InputStream_ and writing to the _OutStream_ until the _read_ function returns an error value (-1) which means there is not anything else to read. 
+
+<pre><code class="prettyprint lang-Java">protected void dumpStream( InputStream in, OutputStream out )
+throws IOException {
+	byte[] arr = new byte[1024];
+	int n;
+	do {
+		n = in.read( arr );
+		out.write( arr, 0, n );
+	} while (n != -1);
+}</code></pre>

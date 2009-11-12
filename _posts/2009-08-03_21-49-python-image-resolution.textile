@@ -1,0 +1,29 @@
+---
+layout: post
+title: "Snippet.Py: Getting an image resolution"
+tags:
+- Snippet
+- Python
+- Image Resolution
+---
+
+Using "PIL(Python Image Library)":http://www.pythonware.com/products/pil/ it is possible to get the width and height of a image using the property _size_.
+
+The following example will take an undefined number of arguments and print all the resolutions:
+
+<pre><code class="prettyprint lang-py">import Image
+import sys
+def main():
+    argv = sys.argv[1:]
+    if (len(argv) == 0):
+        print "No file given!"
+    else:
+        for name in argv:
+            img = Image.open(name)
+            print name + ": %d %d" % img.size
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+Credit for the snippet goes to "meqif":http://scarybox.net.
+The code can also be found at "github":http://gist.github.com/160844.

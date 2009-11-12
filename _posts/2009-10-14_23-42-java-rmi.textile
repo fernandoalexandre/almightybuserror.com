@@ -1,0 +1,81 @@
+---
+layout: post
+title: "Java: Remote Method Invocation"
+tags:
+- Introduction
+- Java
+- RMI
+---
+
+The Java RMI(Remote Method Invocation) is a way to create distributed services. It is composed of RMIRegistry which is a name registry which saves the resources available (servers) in a JVM(Java Virtual Machine). The registry is, however, accessible through different JVM(Java Virtual Machine)'s when configured.
+
+Since all the invocations are remote, most arguments are passed by value. 
+The exception is when an object the implements an interface that extends _Remote_. A server is passed by reference, since its concept requires that the information must to be consistent between all the clients accessing it.
+
+Considering that the server object would be passed by value like any other argument. This means that for the server to be consistent between all clients, it would need for each client to relay the local changes of each individual server to the central server, this creates alot of useless workload since its easier to just change the central server directly, it would save CPU(Central Processing Unit) cycles and network traffic on the client side used to calculate the changes and the central server load doesn't change.
+
+h5. Interface
+
+<pre><code class="prettyprint lang-java">public interface IStuffServer extends Remote
+{
+    public void doStuff() throws RemoteException;
+}</code></pre>
+
+h5. Class
+
+<pre><code class="prettyprint lang-java">public class StuffServer extends UnicodeRemoteObject implements IInfoReceiver 
+{
+    StuffServer() throws RemoteException { super(); }
+    public void doStuff() { System.out.println("Stuff done."); }
+}</code></pre>
+
+Every method of a class which extends Remote might throw a RemoteException (network connectivity).
+h4. Registering a resource
+
+To create a registry there is a static method in the class _LocateRegistry_ named _createRegistry_ which receives an integer that specifies the port in which the registry will listen for requests. For the registry to be able to communicate with other JVM(Java Virtual Machine)'s, it is needed to enable it by defining a _policy_.
+
+h5. policy.all
+
+<pre><code class="prettyprint lang-java">grant {
+    permission java.security.AllPermission "", "";
+};</code></pre>
+Please bear in mind this might be insecure for critical applications.
+
+h5. Creating a "public" registry
+
+<pre><code class="prettyprint lang-java">System.getProperties().put("java.security.policy", "policy.all");
+if (System.getSecurityManager() == null) {
+    System.setSecurityManager(new RMISecurityManager());
+}
+try { // start rmiregistry
+    LocateRegistry.createRegistry(1099);
+} catch (RemoteException e) 
+{   /* registry already created*/   }
+InfoServerImpl server = new InfoServerImpl();
+Naming.rebind("/StuffServer", server);
+System.out.println("StuffServer bound in registry");</code></pre>
+
+After creating the registry, the static class _Naming_ is used to bind a name to the class using the method _rebind_, which in the example is "/StuffServer". This name is only known by the registry in the current JVM.
+
+A registry can be accessed by a simple netbios-like link, for example 
+"_//localhost/StuffServer_".
+
+h4. Obtaining Server Reference
+
+To obtain the server object reference the static _Naming_ class is used again, this time with the _lookup_ method.
+
+<pre><code class="prettyprint lang-java">IInfoServer server = null;
+try {
+    server = (IInfoServer) Naming.lookup("//localhost/StuffServer");
+} catch(RemoteException e) 
+    { System.out.println("Server not found"); }</code></pre>
+
+After the server reference is obtained all the interaction to it is the same of a local object, except it might fail/be slower because of network connectivity issues.
+
+<pre><code class="prettyprint lang-java">server.doStuff();</code></pre>
+
+The previous will print "Stuff done." at the server's console.
+
+That was it about Java's RMI(Remote Method Invocation). For more information go "here":http://java.sun.com/javase/technologies/core/basic/rmi/index.jsp.
+
+Thank you for reading!

@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+<div class="post">
+    <div class="datetime">
+        {{ page.date | date:"%B %d, %Y at %H:%M" }}<br /><!-- DATE HERE -->
+        <div class="tags">Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag }}">{{ tag }}</a> {% endfor %}
+        </div><br />
+        <div style="font-size: 10px; text-align: left; float: right;"><a class="dsq-comment-count" href="{{ post.url }}#disqus_thread">Comments (View)</a></div><br />
+    </div>
+    <h2><a href="{{ post.url }}">{{ page.title }}</a></h2>
+    <div class="post">
+        {{content}}
+    </div>
+    <div class="post disqus">
+        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/almightybuserror/embed.js"></script><noscript><a href="http://disqus.com/forums/almightybuserror/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+    var links = document.getElementsByTagName('a');
+    var query = '?';
+    for(var i = 0; i < links.length; i++) {
+        if(links[i].href.indexOf('#disqus_thread') >= 0) {
+            query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        }
+    }
+    document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/almightybuserror/get_num_replies.js' + query + '"></' + 'script>');
+    })();
+    //]]></script>

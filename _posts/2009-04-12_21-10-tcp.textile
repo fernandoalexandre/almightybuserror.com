@@ -1,0 +1,51 @@
+---
+layout: post
+title: "The connection-oriented network protocol"
+tags:
+- Introduction
+- Java
+- TCP
+---
+
+The TCP(Transmission Control Protocol) and unlike UDP(User Datagram Protocol) it does have a connection definition within the protocol based on Acknowledge-type packets.
+
+In TCP(Transmission Control Protocol) every sent information packet needs to be acknowledged by the destination and if it is missing, the packet is resent until there is confirmation thus creating a "connection" between two peers. If a packet is corrupted a request is to the source for a replacement. Because there is a need to acknowledge all sent packets and error correction, TCP(Transmission Control Protocol) becomes bulkier and slower than UDP but extremely reliable.
+
+In Java, to implement TCP(Transmission Control Protocol) communication the following objects from the java.net.* package are used: _Socket_ and _ServerSocket_. Other needed objects, from the java.io.* package: _InputStream_ and _OutputStream_.
+
+As you can see in Java there is such a thing as a Server and Client. A ServerSocket can be looked at as a _Socket generator_. Its _accept_ method accepts an incoming connection from a client creating and returning a _Socket_ object.
+
+h5. How to use a _Socket_
+
+<pre><code class="prettyprint lang-java">Socket aSocket = new Socket( server, port );</code></pre>
+
+h5. Reading from the socket
+
+<pre><code class="prettyprint lang-java">InputStream is = aSocket.getInputStream();
+Scanner in = new Scanner( is );
+( ... )</code></pre>
+
+For more information on how to use a Scanner please refer to "here":http://java.sun.com/developer/JDCTechTips/2004/tt1201.html.
+
+h5. Writing to the socket
+
+<pre><code class="prettyprint lang-java">OuputStream os = aSocket.getOutputStream();
+byte[] message = new String( "Hello World!" ).getBytes();
+os.write( message );</code></pre>
+
+h5. Closing a socket
+
+<pre><code class="prettyprint lang-java">socket.close();</code></pre>
+
+h5. How to use a _ServerSocket_
+
+<pre><code class="prettyprint lang-java">ServerSocket server = new ServerSocket( port );
+Socket aSocket = server.accept();</code></pre>
+
+The accept method is blocking, it will block the current execution flow. If there is need to process multiple clients at the same time the program must be multithreaded.
+
+As we can observe, opposing UDP(User Datagram Protocol), the TCP(Transmission Control Protocol) approach, at least in Java, does not need a crafting of every single packet, there is an abstraction layer that makes it possible to just dump information and let the underlying implementation handle the low-level management.
+
+For more information on TCP(Transmission Control Protocol) go "here":http://en.wikipedia.org/wiki/Transmission_Control_Protocol.
+
+Thank you for reading!

@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Multicast: An UDP strong point"
+tags:
+- Introduction
+- Java
+- UDP
+- Multicast
+---
+
+Multicast is a way to distribute UDP(User Datagram Protocol) messages to multiple hosts in an automated fashion. It works by making every host join a group which is composed of an IP address in the range _224.0.0.0 to 239.255.255.255_ and a _port_. Every message sent to a group will be delivered to every host that has joined it.
+Since it can generate alot of traffic, multicast is only used at a LAN or intranet level.
+
+In Java, to use Multicast there is an object named __MulticastSocket__. It has mostly the same usage as the __DatagramSocket__ but has an __joinGroup__ method and makes the process join a multicast group:
+
+<pre><code class="prettyprint lang-java">MulticastSocket mso = new MulticastSocket( 9001 );
+mso.joinGroup( InetAddress.getByName("224.0.5.8") );</code></pre>
+
+For more information about receiving and sending messages in UDP(User Datagram Protocol) go "here":http://almightybuserror.com/post/92359462/the-connectionless-networking-protocol.

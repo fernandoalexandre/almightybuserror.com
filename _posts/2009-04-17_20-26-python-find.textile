@@ -1,0 +1,19 @@
+---
+layout: post
+title: "Snippet.Py: Showing all the filenames in a directory"
+tags:
+- Snippet
+- Python
+---
+
+The following Python code prints the name of the chosen directory and all the files in it and then proceeds to print all the files in the other nested directories one nested directory at a time. 
+This method is recursive for nested directories.
+
+<pre><code class="prettyprint lang-python">def print_dir(loc):
+    print loc + "\n"
+    for root, dirs, files in os.walk(loc):
+        for f in files:
+           print f + "\n"
+        for d in dirs:        
+           print_dir(os.path.join(loc, d))
+    return</code></pre>

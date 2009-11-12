@@ -1,0 +1,16 @@
+---
+layout: default
+---
+#home
+
+  - site.collated_posts.sort.reverse.each do |year,months|
+    .year
+      %h2.year= year
+      - months.sort.reverse.each do |month,days|
+        %h3.month= Date::MONTHNAMES[month]
+        %ul.posts
+          - days.sort.reverse.each do |day,posts|
+            - posts.each do |post|
+              %li
+                %strong.date= "%02dth" % day
+                = link_to post.title, post.url
