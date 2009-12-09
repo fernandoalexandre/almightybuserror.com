@@ -2,15 +2,12 @@
 layout: default
 ---
 #home
-
+  %h2.index Index
   - site.collated_posts.sort.reverse.each do |year,months|
-    .year
-      %h2.year= year
-      - months.sort.reverse.each do |month,days|
-        %h3.month= Date::MONTHNAMES[month]
-        %ul.posts
-          - days.sort.reverse.each do |day,posts|
-            - posts.each do |post|
-              %li
-                %strong.date= "%02dth" % day
-                = link_to post.title, post.url
+    - months.sort.reverse.each do |month,days|
+      %ul.posts
+        - days.sort.reverse.each do |day,posts|
+          - posts.each do |post|
+            %li
+              ="%s %02dth %s %s" % [[link_to post.title, post.url], day, Date::MONTHNAMES[month], year]
+      %br

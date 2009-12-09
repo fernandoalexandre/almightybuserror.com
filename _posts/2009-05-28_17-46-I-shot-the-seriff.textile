@@ -1,0 +1,11 @@
+---
+layout: post
+title: "I shot the seriff"
+tags:
+- Typography
+- Comedy
+---
+
+<a href="http://1.media.tumblr.com/ESJyzYLhpo18s7rcm8Ybs5eXo1_500.jpg" class="lightbox" id="img"><img src="http://1.media.tumblr.com/ESJyzYLhpo18s7rcm8Ybs5eXo1_500.jpg"/></a>
+
+Source: "gamebittk":http://digg.com/design/I_Shot_The_Serif_PIC.

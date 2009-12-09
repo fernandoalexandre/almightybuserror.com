@@ -30,6 +30,7 @@ h5. Class
 }</code></pre>
 
 Every method of a class which extends Remote might throw a RemoteException (network connectivity).
+
 h4. Registering a resource
 
 To create a registry there is a static method in the class _LocateRegistry_ named _createRegistry_ which receives an integer that specifies the port in which the registry will listen for requests. For the registry to be able to communicate with other JVM(Java Virtual Machine)'s, it is needed to enable it by defining a _policy_.

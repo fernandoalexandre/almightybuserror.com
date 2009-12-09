@@ -1,0 +1,35 @@
+<ifModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 seconds"
+  ExpiresByType text/html "access plus 3600 seconds"
+  ExpiresByType image/gif "access plus 1 years"
+  ExpiresByType image/jpeg "access plus 1 years"
+  ExpiresByType image/png "access plus 1 years"
+  ExpiresByType image/x-icon "access plus 1 years"
+  ExpiresByType text/css "access plus 1 weeks"
+  ExpiresByType text/javascript "access plus 1 months"
+  ExpiresByType application/x-javascript "access plus 1 months"
+  ExpiresByType application/javascript "access plus 1 months"
+</ifModule>
+
+<ifModule mod_headers.c>
+  Header unset ETag
+</ifModule>
+FileETag None
+
+<ifModule mod_headers.c>
+  Header unset Last-Modified
+</ifModule>
+
+Header add Vary accept-encoding 
+RewriteEngine on 
+RewriteBase /
+RewriteRule ^rss$ /atom.xml [L]
+RewriteCond %{HTTP:accept-encoding} gzip
+RewriteCond %{REQUEST_FILENAME} !\.gz$
+RewriteCond %{REQUEST_FILENAME}.gz -f
+RewriteRule (.*) $1.gz [L]
+
+ErrorDocument 404 /404.html
+
+DirectorySlash off

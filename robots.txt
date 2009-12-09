@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: 
+Disallow: /tasks/
+
+Sitemap: http://almightybuserror.com/sitemap.xml

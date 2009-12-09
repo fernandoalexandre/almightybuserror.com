@@ -1,0 +1,11 @@
+---
+layout: post
+title: "Yes we kern"
+tags:
+- Typography
+- Comedy
+---
+
+<a href="http://19.media.tumblr.com/ESJyzYLhplxmrlulK5SgYfJLo1_500.png" class="lightbox" id="img"><img src="http://19.media.tumblr.com/ESJyzYLhplxmrlulK5SgYfJLo1_500.png"/></a>
+
+Source:  "ilovetypography":http://ilovetypography.com/2009/04/05/yes-we-kern-the-week-in-typography-and-fonts/

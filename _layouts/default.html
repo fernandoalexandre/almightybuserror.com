@@ -10,10 +10,11 @@
     <meta name="description" content="{Description}" />
     <meta name="google-site-verification" content="LhqflhiixKIv60h5urxUQN3LmHU2oKIs3hNdI8AGuKc" />
     <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
     <link rel="stylesheet" type="text/css" href="/css/prettify.css" />
 </head>
-<body>
+<body id="top">
     <div class="wrapper">
         <div class="header" style="text-align: center;">
             <h1>
@@ -25,16 +26,18 @@
                 GitHub repository with examples <a href="http://github.com/kernl/Scripts-and-Tools">here</a>.<br />
                 Currently a Computer Engineering student at FCT/UNL.
             </div>
-            <div style="text-align: center; margin-top: 0.7em; margin-bottom: 0.7em;">
+            <div style="margin-top: 0.7em; margin-bottom: 0.7em;">
             <form action='http://www.google.com/search' id='search' method='get'>
               <input class='text' name='q' type='text' />
               <input name='sitesearch' type='hidden' value='almightybuserror.com' />
               <input class='button' type='submit' value='Google' />
             </form>
             </div>
+            <a style="font-size: 12px;" href="/rss">rss</a>
         </div>
         <div class="main">
             {{content}}
+        <div style="float:right;"><h2><a href="#top" style="font-size:12px">[top]</a></h2></div>
         </div>
     </div>
 <script type="text/javascript" src="/js/prettify.js"></script>

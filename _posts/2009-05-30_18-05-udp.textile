@@ -20,7 +20,7 @@ someString.getBytes(), someString.length() );</code></pre>
 
 To configure the destination of the datagram the following methods are used:
 
-<pre><code class="prettyprint lang-java">packet.setAddress( InetAddress.<i>getByName</i>( someServerName ) );
+<pre><code class="prettyprint lang-java">packet.setAddress( InetAddress.getByName( someServerName ) );
 packet.setPort( port );</code></pre>
 
 InetAddress._getByName_ is an static method that given a server name like "www.google.com" returns the IP address.

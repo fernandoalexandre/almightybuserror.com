@@ -1,0 +1,10 @@
+---
+layout: post
+title: "Stop that fridge!"
+tags:
+- Comedy
+---
+
+<a href="http://20.media.tumblr.com/ESJyzYLhpo5uhh66Ez0T913No1_400.jpg" class="lightbox" id="img"><img src="http://20.media.tumblr.com/ESJyzYLhpo5uhh66Ez0T913No1_400.jpg"/></a>
+
+Source: "digg":http://digg.com/comedy/Stop_That_Fridge_Pic

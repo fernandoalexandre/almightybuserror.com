@@ -1,0 +1,334 @@
+---
+layout: post
+title: "Drawing Splines in openGL"
+tags:
+- openGL
+- Curves
+- Splines
+- Bezier
+- BSpline
+- Catmull-Rom
+---
+
+This article will cover the basics of drawing bezier curves in openGL and how to convert from other curves to Bezier, such as Bspline and Catmull-Rom curves.
+
+h4. Declaring control Points
+
+The way to declare a list of control points for openGL usage is an one dimensional matrix. Since a curve segment only has in account 4 control points:
+
+<notextile><div style="float:right; margin-left:auto; margin: 0px; padding:1em">
+<table style="color:#000"><tr>
+<td align="center" valign="center" width=30>cntlPoints[]</td>
+<td align="center" valign="center" width=30>=</td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>p0x</td>
+<td align="center" valign="center" width=30>p0y</td>
+<td align="center" valign="center" width=30>p0z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p1x</td>
+<td align="center" valign="center" width=30>p1y</td>
+<td align="center" valign="center" width=30>p1z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p2x</td>
+<td align="center" valign="center" width=30>p2y</td>
+<td align="center" valign="center" width=30>p2z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p3x</td>
+<td align="center" valign="center" width=30>p3y</td>
+<td align="center" valign="center" width=30>p3z</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+</tr></table>
+</div></notextile>
+
+A Bezier curve only needs the last point of the previous curve to be continuous. Catmull-Rom and Bspline need to know the last 3 points from the previous curve to be continuous.
+
+In the case you have more than 4 points, lets say 7, you would draw 2 curves from p0 to p3 and p3 to p6 in case of a Bezier curve and 5 curves in Catmull-Rom and Bspline going from p0 to p3, p1 to p4, p2 to p5 and p3 to p6 for them to become continous.
+
+h4. Drawing a Bezier curve in openGL
+
+<notextile><div style="float:right; margin-left:auto; margin: 0px; padding:1em">
+<table style="color:#000"><tr>
+<td align="center" valign="center" width=30>mBezier[]</td>
+<td align="center" valign="center" width=30>=</td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>-1</td>
+<td align="center" valign="center" width=30>-3</td>
+<td align="center" valign="center" width=30>3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>3</td>
+<td align="center" valign="center" width=30>-6</td>
+<td align="center" valign="center" width=30>3</td>
+<td align="center" valign="center" width=30>0</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>-3</td>
+<td align="center" valign="center" width=30>3</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+</tr></table>
+</div></notextile>
+
+OpenGL has the ability to draw Bezier curves almost directly using the _map_ function but for completeness sake the matrix for a bezier curve is the following:
+
+<br/>
+The following code in JOGL will draw a Bezier line using the _map_ procedure:
+
+<pre><code class="prettyprint lang-java">public void drawLine(GL gl, double[] controlPoints) {
+	DoubleBuffer ctrlPointBuffer = BufferUtil.newDoubleBuffer(3*controlPoints.length);
+
+	for(int i = 0; i < controlPoints.length; i++)
+		ctrlPointBuffer.put(controlPoints[i]);
+	ctrlPointBuffer.rewind();
+
+	gl.glMap1d(GL.GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, ctrlPointBuffer);
+
+	gl.glEnable(GL.GL_MAP1_VERTEX_3);
+	gl.glBegin(GL.GL_LINE_STRIP);
+	for (int i = 0; i <= 30; i++) {
+		gl.glEvalCoord1f(i / 30.0f);
+	}
+	gl.glEnd();
+	gl.glFlush();
+}</code></pre>
+
+h4. Converting other curves to Bezier
+
+To convert the control points of another type of curve to a Bezier control points you need to:
+
+<pre><code class="prettyprint">mCustom * mInverseBezier * customCntlPoints = bezierCntlPoints</code></pre>
+
+<notextile><div style="float:right; margin-left:auto; margin: 0px; padding:1em">
+<table style="color:#000"><tr>
+<td align="center" valign="center" width=30>mBezier[]</td>
+<td align="center" width=15><sup>-1</sup></td>
+<td align="center" valign="center" width=30>=</td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>2/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+</tr></table>
+</div></notextile>
+
+The inverse of the Bezier matrix used for the conversion of the control points is:
+
+<br /><br /><br />
+
+h4. Example of a conversion from Catmull-Rom to Bezier
+
+<notextile><div style="float:right; margin-left:auto; margin: 0px; padding:0.5em">
+<table style="color:#000"><tr>
+<td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=35>-1/2</td>
+<td align="center" valign="center" width=35>3/2</td>
+<td align="center" valign="center" width=35>-3/2</td>
+<td align="center" valign="center" width=35>1/2</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=35>1</td>
+<td align="center" valign="center" width=35>-5/2</td>
+<td align="center" valign="center" width=35>2</td>
+<td align="center" valign="center" width=35>-1/2</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=35>-1/2</td>
+<td align="center" valign="center" width=35>0</td>
+<td align="center" valign="center" width=35>1/2</td>
+<td align="center" valign="center" width=35>0</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=35>0</td>
+<td align="center" valign="center" width=35>1</td>
+<td align="center" valign="center" width=35>0</td>
+<td align="center" valign="center" width=35>0</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>2/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>p0x</td>
+<td align="center" valign="center" width=30>p0y</td>
+<td align="center" valign="center" width=30>p0z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p1x</td>
+<td align="center" valign="center" width=30>p1y</td>
+<td align="center" valign="center" width=30>p1z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p2x</td>
+<td align="center" valign="center" width=30>p2y</td>
+<td align="center" valign="center" width=30>p2z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p3x</td>
+<td align="center" valign="center" width=30>p3y</td>
+<td align="center" valign="center" width=30>p3z</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td align="center" valign="center" width=30>=</td>
+<td align="center" valign="center" width=30>bezierCntlPoints[]</td>
+</tr></table>
+</div></notextile>
+
+h4. Example of a conversion from B-Spline to Bezier
+
+<notextile><div style="float:right; margin-left:auto; margin: 0px; padding:0.5em; padding-bottom:2em;">
+<table style="color:#000"><tr>
+<td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+    <tr>
+    <td align="center" valign="center" width=35>-1/6</td>
+    <td align="center" valign="center" width=35>1/2</td>
+    <td align="center" valign="center" width=35>-1/2</td>
+    <td align="center" valign="center" width=35>1/6</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=35>1/2</td>
+    <td align="center" valign="center" width=35>-1</td>
+    <td align="center" valign="center" width=35>1/2</td>
+    <td align="center" valign="center" width=35>0</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=35>-1/2</td>
+    <td align="center" valign="center" width=35>0</td>
+    <td align="center" valign="center" width=35>1/2</td>
+    <td align="center" valign="center" width=35>0</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=35>1/6</td>
+    <td align="center" valign="center" width=35>4/6</td>
+    <td align="center" valign="center" width=35>1/6</td>
+    <td align="center" valign="center" width=35>0</td>
+    </tr>
+
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1/3</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1/3</td>
+    <td align="center" valign="center" width=30>2/3</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>p0x</td>
+<td align="center" valign="center" width=30>p0y</td>
+<td align="center" valign="center" width=30>p0z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p1x</td>
+<td align="center" valign="center" width=30>p1y</td>
+<td align="center" valign="center" width=30>p1z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p2x</td>
+<td align="center" valign="center" width=30>p2y</td>
+<td align="center" valign="center" width=30>p2z</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>p3x</td>
+<td align="center" valign="center" width=30>p3y</td>
+<td align="center" valign="center" width=30>p3z</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
+<td align="center" valign="center" width=30>=</td>
+<td align="center" valign="center" width=30>bezierCntlPoints[]</td>
+</tr></table>
+</div></notextile>
+
+That was it, thank you for reading.
+
+Comments are welcome!
+
+Note: I used "Matrices in HTML":http://metamerist.com/excanvas/example34.htm to present the matrices in this post. It uses css and tables to present them correctly.
