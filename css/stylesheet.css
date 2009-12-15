@@ -17,7 +17,6 @@ pre {
 	display: block;
 	font-size: 10px;
 	margin: 1em;
-	
 }
 
 a {
@@ -81,23 +80,14 @@ h5 {
 }
 
 img {
-	display:block;
+	display: block;
 	background: #fff !important;
 	border: 1px solid #999;
 	padding: 5px;
 	text-align: center;
 }
 
-#img {
-	text-decoration: none !important;
-	background: #fff !important;
-	margin: 0px;
-}
-
-.disqus a {
-	text-decoration: none !important;
-	background: #fff !important;
-}
+/* @group Main Presentation */
 
 .header {
 	margin-top: 2em;
@@ -114,20 +104,6 @@ img {
 .main {
 	margin: 50px 0px;
 	padding-bottom: 2em;
-}
-
-.datetime {
-	font-size: 12px;
-	line-height: 150%;
-	color: #666;
-	position: relative;
-	float: left;
-	margin-left: -250px;
-	padding-right: 25px;
-	border-right: 1px solid #999;
-	width: 200px;
-	text-align: right;
-	clear: both;
 }
 
 .navleft {
@@ -150,6 +126,61 @@ img {
 	width: 500px;
 }
 
+/* @end */
+
+#img {
+	text-decoration: none !important;
+	background: #fff !important;
+	margin: 0px;
+}
+
+/* @group Disqus */
+
+.disqus a {
+	text-decoration: none !important;
+	background: #fff !important;
+}
+
+.disqus {
+	font-family: Georgia, 'Times New Roman', Times !important;
+	font-size: 16px;
+	line-height: 150% !important;
+	color: #333 !important;
+}
+
+#disqus_thread a {
+	background: transparent;
+}
+
+
+
+/* @end */
+
+.notes a {
+	text-decoration: none !important;
+	background: none;
+}
+
+.notes img {
+	margin: 0px;
+	padding: 3px;
+	border: 1px solid #999;
+}
+
+.datetime {
+	font-size: 12px;
+	line-height: 150%;
+	color: #666;
+	position: relative;
+	float: left;
+	margin-left: -250px;
+	padding-right: 25px;
+	border-right: 1px solid #999;
+	width: 200px;
+	text-align: right;
+	clear: both;
+}
+
 .description {
 	font-size: 14px;
 	position: relative;
@@ -168,13 +199,11 @@ img {
 }
 
 ul {
-	
-	list-style-type: circle;
-	list-style-position: outside;
-	padding-left: 1em;
+	padding-bottom: 1em;
 }
 
 .post {
+	display: inline-block;
 	padding-bottom: 30px;
 }
 
@@ -183,18 +212,7 @@ a .notes {
 	background: none;
 }
 
-.notes a {
-	text-decoration: none !important;
-	background: none;
-}
-
 img .notes {
-	margin: 0px;
-	padding: 3px;
-	border: 1px solid #999;
-}
-
-.notes img {
 	margin: 0px;
 	padding: 3px;
 	border: 1px solid #999;
@@ -206,17 +224,6 @@ sup {
 
 sub {
 	vertical-align: sub;
-}
-
-.disqus {
-	font-family: Georgia, 'Times New Roman', Times !important;
-	font-size: 16px;
-	line-height: 150% !important;
-	color: #333 !important;
-}
-
-#disqus_thread a {
-	background: transparent;
 }
 
 .taglist h2 {
