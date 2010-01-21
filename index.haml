@@ -2,17 +2,20 @@
 layout: default
 ---
 #home
-  %h2.index Index
   - site.collated_posts.sort.reverse.each do |year,months|
     - months.sort.reverse.each do |month,days|
-      %ul.posts{:style => 'padding-bottom:0px'}
+      %ul.month
+        %h3.title_date
+          = "%s" % Date::MONTHNAMES[month]
+          %span.year
+            = "%s" % year
         - days.sort.reverse.each do |day,posts|
           - posts.each do |post|
             %li
-              %div{:style => 'display:block;'}
-                %div{:style => 'float:left; text-align:left'}
+              %div.index_post
+                %div.index_post_title
                   = "%s" % [link_to post.title, post.url]
-                %div{:style => 'float:right; font-size:12px; text-align:right'}
-                  = "%02dth %s %s" % [day, Date::MONTHNAMES[month], year]
-                %br
-      %br
+                %div.index_post_date
+                  = "%02dth" % day
+                %div.index_post_intro
+                  = (post.content.split('</p>')[0] + " (...)").gsub( %r{</?[^>]+?>}, '' )

@@ -7,7 +7,6 @@ tags:
 - FilenameFilter
 ---
 
-
 To use a _FilenameFilter_ it is needed to implement a method _accept_ which has as arguments the directory where the file exists and the name of the file. It is normally used in conjuction with the _list_ method of the _File_ object.
 
 The following example prints all the files with extension "jpg" in a certain directory:
