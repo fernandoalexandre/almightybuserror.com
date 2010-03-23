@@ -1,0 +1,72 @@
+---
+layout: post
+title: "Dynamic Programming"
+tags:
+- Introduction
+- Java
+- Dynamic Programming
+- Fibonacci Numbers
+---
+
+From "Wikipedia":http://en.wikipedia.org/wiki/Dynamic_programming:
+<blockquote><span class="qstart">&#8220;</span>In mathematics and computer science, dynamic programming is a method of solving complex problems by breaking them down into simpler steps. It is applicable to problems that exhibit the properties of overlapping subproblems which are only slightly smaller and optimal substructure (described below). When applicable, the method takes much less time than naive methods.
+Top-down dynamic programming simply means storing the results of certain calculations, which are then re-used later because the same calculation is a sub-problem in a larger calculation. Bottom-up dynamic programming involves formulating a complex calculation as a recursive series of simpler calculations.<span class="qend">&#8221;</span></blockquote>
+
+As described above, dynamic programming consists of two main steps:
+
+* 1) Correctly identify the recursive function that describes the problem.
+* 2) Convert that function to a iterative algorithm that is memory-bound ("memoization":http://en.wikipedia.org/wiki/Memoization) instead of cpu-bound.
+
+By using memoization the algorithm becomes faster since it doesn't re-calculate results.
+
+h4. Defining a Recursive Function
+
+To define the recursive function of a algorithm it is necessary to define all the odd cases in which the algorithm will reach an extreme. To help understand, the all-famous "fibonacci numbers":http://en.wikipedia.org/wiki/Fibonacci_number will be used to explain. By definition, the first two Fibonacci numbers are 0 and 1, and each remaining number is the sum of the previous two.
+
+h5. Identifying the extreme cases
+
+Extreme cases are the ones where you know the recursive behavior of a function will stop, in the case of the fibonacci numbers, when you reach 1 or 0.
+
+h5. Identifying general cases
+
+General cases recursively define the problem, since the fibonacci numbers problem is a simple, it only has a general case which is the sum of the two previous fibonacci numbers if the number we want isn't 1 nor 0.
+
+h5. Merging it all
+
+The result function is:
+<a href="/images/posts/fibseq.png" class="lightbox" id="img"><img src="/images/posts/fibseq.png" style="margin:auto"/></a>
+
+To convert the recursive into a iterative algorithm using memoization *is convenient that all the general cases are defined by breaking the problem we want to solve into smaller ones*.
+
+h4. Converting Recursive Function to Iterative
+
+The steps to convert a recursive function to a iterative algorithm are:
+
+* 1) Create a matrix with a dimension number equal to the number of arguments the recursive function has.
+* 2) Fill the matrix with the extreme cases of the recursive function (the extreme cases become the base cases).
+* 3) Fill the matrix using the general cases using the extreme cases to populate it.
+
+A recursive call can be converted directly to a position of the result matrix by its indexes, for example:
+
+<pre><code class="prettyprint lang-java">fib(9) -> fib[9];
+stuff(9,10) -> stuff[9][10];
+</code></pre>
+
+h5. Back to Fibonacci
+
+The iterative code that was created the previous technique will be:
+
+<pre><code class="prettyprint lang-java">public int fib(int n) {
+    int fib[] = new int[n+1];
+    // Fill extreme cases
+    fib[0] = 0;
+    fib[1] = 1;
+    // Fill general cases
+    for(int i = 2; i <= n; i++) {
+        fib[i] = fib[i-1] + fib[i-2];
+    }
+    return fib[n];
+}
+</code></pre>
+
+Note: This implementation of the fibonacci numbers was not made for multiple requests.
