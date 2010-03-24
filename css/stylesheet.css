@@ -175,14 +175,13 @@ div > * {
 }
 
 .qstart {
-	opacity: 0.2;
 	float: left;
     height: 45px;
     margin-top: -20px;
     padding-top: 45px;
     margin-bottom: -50px;
     font-size: 700%;
-    color: #FF0000;
+    color: #f0c7c3;
 }
 
 .qend {
@@ -191,8 +190,7 @@ div > * {
     margin-top: 0px;
     padding-top: 35px;
     font-size: 700%;
-    color: #FF0000;
-	opacity: 0.2;
+    color: #f0c7c3;
 }
 
 blockquote {
