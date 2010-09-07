@@ -5,8 +5,8 @@
     <title>
         Almighty Bus Error
     </title>
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}" />
-    <meta name="viewport" content="width=1000" /><!-- iPhone -->
+    <link href="atom.xml" type="application/atom+xml" rel="alternate" title="ATOM" />
+    <meta name="viewport" content="width=800" /><!-- iPhone -->
     <meta name="description" content="{Description}" />
     <meta name="google-site-verification" content="LhqflhiixKIv60h5urxUQN3LmHU2oKIs3hNdI8AGuKc" />
     <link rel="stylesheet" type="text/css" href="/css/reset.css" />
@@ -15,29 +15,28 @@
     <link rel="stylesheet" type="text/css" href="/css/prettify.css" />
 </head>
 <body id="top">
-    <div class="wrapper">
-        <div class="header" style="text-align: center;">
+    <div class="wrapper" style="width:600px">
+        <div class="header standard_div">
             <h1>
-                <a href="/" style="background:none; color:#df423b; margin-bottom: 20px;">Almighty Bus Error</a>
+                <a href="/" id="main_title">Almighty Bus Error</a>
             </h1>
-            <div class="description">
-                Blog about computer science, code snippets and tips.<br />
-                <br />
-                <a href="http://github.com/kernl/Scripts-and-Tools">GitHub repository</a> with examples.<br />
-                The author is a Computer Engineering student at FCT/UNL.
-            </div>
-            <div style="margin-top: 0.7em; margin-bottom: 0.7em;">
-            <form action='http://www.google.com/search' id='search' method='get'>
-          <input class='text' name='q' type='search' size='25' placeholder="powered by Google"/>
-              <input name='sitesearch' type='hidden' value='almightybuserror.com' />
-              <input class='button' type='submit' value='Search' />
-            </form>
-            </div>
-            <a style="font-size: 12px;" href="/rss">rss</a>
         </div>
-        <div class="main">
-            {{content}}
-        <div style="float:right;"><h2><a href="#top" style="font-size:12px">[top]</a></h2></div>
+        <div class="menu_outer standard_div">
+            <div class="menu">
+                <div class="left_menu_item">
+                    <a href="/">Index</a>
+                </div>
+                <div class="menu_item">
+                    <a href="http://github.com/kernl/Scripts-and-Tools">Git Repository</a>
+                </div>
+                <div class="right_menu_item">
+                    <a href="/about.html">About</a>
+                </div>
+            </div>
+        </div>
+        <div class="main standard_div">
+        <div class="standard_div">{{content}}</div>
+        <div class="top"><h2><a href="#top">[top]</a></h2></div>
         </div>
     </div>
 <script type="text/javascript" src="/js/prettify.js"></script>
@@ -46,6 +45,4 @@
 <script type="text/javascript" src="/js/misc.js"></script>
 </body>
 </html>
-
-
 

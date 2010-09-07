@@ -17,7 +17,7 @@ As described above, dynamic programming consists of two main steps:
 * 1) Correctly identify the recursive function that describes the problem.
 * 2) Convert that function to a iterative algorithm that is memory-bound ("memoization":http://en.wikipedia.org/wiki/Memoization) instead of cpu-bound.
 
-By using memoization the algorithm becomes faster since it doesn't re-calculate results.
+By using memoization the algorithm becomes more efficient since it doesn't re-calculate results.
 
 h4. Defining a Recursive Function
 

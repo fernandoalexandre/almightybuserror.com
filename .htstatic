@@ -21,14 +21,17 @@ FileETag None
   Header unset Last-Modified
 </ifModule>
 
-Header add Vary accept-encoding 
-RewriteEngine on 
+Header add Vary accept-encoding
+RewriteEngine on
 RewriteBase /
-RewriteRule ^rss$ /atom.xml [L]
+RewriteRule ^atom$ /atom.xml [L]
 RewriteCond %{HTTP:accept-encoding} gzip
 RewriteCond %{REQUEST_FILENAME} !\.gz$
 RewriteCond %{REQUEST_FILENAME}.gz -f
 RewriteRule (.*) $1.gz [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) /error.html [L]
 
 ErrorDocument 404 /404.html
 

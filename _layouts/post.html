@@ -1,23 +1,32 @@
 ---
-layout: default
+layout: outer_post
 ---
 
-<div class="post">
+<div class="post standard_div">
     <div class="datetime">
-        {{ page.date | date:"%B %d, %Y at %H:%M" }}<br /><!-- DATE HERE -->
-        <div class="tags">Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase }}">{{ tag }}</a> {% endfor %}
-        </div><br />
-        <div style="font-size: 10px; text-align: left; float: right;"><a class="dsq-comment-count" href="{{ post.url }}#disqus_thread">Comments (View)</a></div><br />
+        <div class="standard_div">{{ page.date | date:"%B %d, %Y at %H:%M" }}</div>
+        <div class="tags standard_div">
+            Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase }}">{{ tag }}</a> {% endfor %}
+        </div>
+        <div class="dsq_goto_comments standard_div">
+            <a class="dsq-comment-count" href="{{ post.url }}#disqus_thread">Comments (View)</a>
+        </div>
     </div>
-    <h2><a href="{{ post.url }}">{{ page.title }}</a></h2>
-    <div class="post">
-        {{content}}
-        <div style="float:right;"><h2><a href="#top" style="font-size:12px">[top]</a></h2></div>
+    <div class="post_content">
+        <h2 class="standard_div">
+            <a href="{{ post.url }}">{{ page.title }}</a>
+        </h2>
+        <div class="standard_div">{{content}}</div>
+        <div class="post disqus">
+            <div id="disqus_thread"></div>
+            <script type="text/javascript" src="http://disqus.com/forums/almightybuserror/embed.js">
+            </script>
+            <noscript>
+                <a href="http://disqus.com/forums/almightybuserror/?url=ref">View the discussion thread.</a>
+            </noscript>
+        </div>
     </div>
-    <div class="post disqus">
-        <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/almightybuserror/embed.js"></script><noscript><a href="http://disqus.com/forums/almightybuserror/?url=ref">View the discussion thread.</a></noscript>
-    </div>
-</div>
+   </div>
 <script type="text/javascript">
 //<![CDATA[
 (function() {
