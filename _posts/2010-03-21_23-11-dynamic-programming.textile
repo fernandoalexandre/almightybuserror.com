@@ -8,6 +8,8 @@ tags:
 - Fibonacci Numbers
 ---
 
+<!-- TOC --!>
+
 From "Wikipedia":http://en.wikipedia.org/wiki/Dynamic_programming:
 <blockquote><span class="qstart">&#8220;</span>In mathematics and computer science, dynamic programming is a method of solving complex problems by breaking them down into simpler steps. It is applicable to problems that exhibit the properties of overlapping subproblems which are only slightly smaller and optimal substructure (described below). When applicable, the method takes much less time than naive methods.
 Top-down dynamic programming simply means storing the results of certain calculations, which are then re-used later because the same calculation is a sub-problem in a larger calculation. Bottom-up dynamic programming involves formulating a complex calculation as a recursive series of simpler calculations.<span class="qend">&#8221;</span></blockquote>

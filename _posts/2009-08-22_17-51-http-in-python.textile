@@ -6,6 +6,8 @@ tags:
 - Python
 ---
 
+<!-- TOC --!>
+
 To create and HTTP(Hyper Text Transfer Protocol) connection we use the "httplib":http://docs.python.org/library/httplib.html module which provides some simple yet effective methods to create a connection and send requests to an HTTP(Hyper Text Transfer Protocol) server. The module "urllib":http://docs.python.org/library/urllib.html can also be used and is easier, does, however only perform *GET* requests (explained in a future post).
 
 h3. Creating a connection

@@ -37,13 +37,13 @@ A DatagramSocket is initialized using the constructor that receives a port which
 
 <pre><code class="prettyprint lang-java">DatagramSocket socket = new DatagramSocket( port );</code></pre>
 
-The methods used by this object are: 
+The methods used by this object are:
 
 <pre><code class="prettyprint lang-java">socket.send( DatagramPacket x );
 socket.receive( DatagramPacket x );</code></pre>
 
-The receive method is blocking, it will block the current execution flow until it has received a message. 
-To receive a packet, it doesn't make sense to configure a destination and a port, only a buffer to where the data will be stored like in the declaration of the packet object. 
+The receive method is blocking, it will block the current execution flow until it has received a message.
+To receive a packet, it doesn't make sense to configure a destination and a port, only a buffer to where the data will be stored like in the declaration of the packet object.
 Since all the complex ( i.e. Object ) argument passing is by reference, the received packet will overwrite all the information in x.
 
 For more information on UDP(User Datagram Protocol) go "here":http://en.wikipedia.org/wiki/User_Datagram_Protocol.

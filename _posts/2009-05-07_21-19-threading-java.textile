@@ -6,6 +6,8 @@ tags:
 - Java
 ---
 
+<!-- TOC --!>
+
 A thread is a lightweight process that will act as the child of the process that created it. If the parent process is interrupted the child will be inherited by the kernel process, however, most of the times when the parent dies and child loses its purpose.
 A thread will seemingly run at the same time as the other processes which raises concurrency issues but this won't be discussed in this article.
 
@@ -15,7 +17,7 @@ To create a thread in either way it is needed to implement the _run_() method. R
 
 h3. Extending Thread object
 
-<pre><code class="prettyprint lang-java">public class DummyThreadable extends Thread 
+<pre><code class="prettyprint lang-java">public class DummyThreadable extends Thread
 {
     DummyThreadable() { ; } //dummy constructor.
     public void Run()
@@ -30,7 +32,7 @@ To create a thread and run it use the *start* method like the following:
 
 h3. Implementing Runnable interface
 
-<pre><code class="prettyprint lang-java">public class DummyThreadable implements Runnable 
+<pre><code class="prettyprint lang-java">public class DummyThreadable implements Runnable
 {
     DummyThreadable() { ; } //dummy constructor.
     public void Run()

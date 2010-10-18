@@ -8,6 +8,8 @@ tags:
 - Java
 ---
 
+<!-- TOC --!>
+
 Continuing from ""Concept Introduction":http://almightybuserror.com/post/107781290/http-proxy-concept-introduction" we will now see how a possible implementation is done.
 
 To start implementing a proxy we must first create a simple server application which accepts a connection from a client to be redirected.

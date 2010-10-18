@@ -6,6 +6,8 @@ tags:
 - Tables
 ---
 
+<!-- TOC --!>
+
 To create a table in LaTex you can just use a tabular block, or use a tabular block and a table wrapper block.
 
 The table wrapper is used for positioning and additional presentation.

@@ -6,6 +6,8 @@ tags:
 - Python
 ---
 
+<!-- TOC --!>
+
 In Python, to create and maintain a FTP(File Transfer Protocol) communication, the "ftplib":http://docs.python.org/library/ftplib.html or "urllib":http://docs.python.org/library/urllib.html (explained in a future post) can be used.
 
 h3. Creating a FTP(File Transfer Protocol) connection
@@ -49,7 +51,7 @@ except:
     return
 file = open('stuff', 'w')
 try: # file.write acts as a function pointer
-    conn.retrbinary('RETR stuff', file.write) 
+    conn.retrbinary('RETR stuff', file.write)
 except:
     print "Couldn't download stuff..."
 finally:

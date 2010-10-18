@@ -18,8 +18,12 @@ layout: default
                     = "%s" % [link_to post.title, post.url]
                   %div.index_post_date
                     = "%02dth" % day
-                  %div.index_post_intro
-                    = (post.content.split('</p>')[0] + " (...)").gsub( %r{</?[^>]+?>}, '' )
+                  - if (post.content.split('</p>')[0]).gsub(%r{</?[^>]+?>}, '' ) =~ /Article contents/
+                    %div.index_post_intro
+                      = (post.content.split('<p>')[1] + " (...)").gsub( %r{</?[^>]+?>}, '' )
+                  - else
+                    %div.index_post_intro
+                      = (post.content.split('</p>')[0] + " (...)").gsub( %r{</?[^>]+?>}, '' )
                 - else
                   %div.index_post_title
                     = "%s" % [link_to post.title, post.url]
