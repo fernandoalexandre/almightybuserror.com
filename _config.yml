@@ -1,8 +1,6 @@
-server: true
-auto: true
 markdown: rdiscount
 pygments: false
 haml: true
 toc: true
 post_defaults:
-  layout: outer_post
+  layout: default
