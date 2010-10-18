@@ -4,14 +4,30 @@ layout: nil
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-          <loc>http://almightybuserror.com/index.html</loc>
-          <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-          <priority>0.8</priority>
+        <loc>http://almightybuserror.com/index.html</loc>
+        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+        <priority>0.8</priority>
     </url>
+
+    <url>
+        <loc>http://almightybuserror.com/about.html</loc>
+        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    </url>
+    <url>
+        <loc>http://almightybuserror.com/cv.html</loc>
+        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    </url>
+
+    <url>
+        <loc>http://almightybuserror.com/tag.html</loc>
+        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    </url>
+
+
     {% for post in site.posts %}
-   <url>
-      <loc>http://almightybuserror.com{{ post.url }}</loc>
-      <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-   </url>
-   {% endfor %}
+    <url>
+        <loc>http://almightybuserror.com{{ post.url }}</loc>
+        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    </url>
+    {% endfor %}
 </urlset>

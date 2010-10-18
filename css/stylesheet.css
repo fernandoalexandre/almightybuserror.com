@@ -150,6 +150,11 @@ sub {
 	margin-bottom: 20px;
 }
 
+#home {
+	padding-left: 5em;
+	padding-right: 5em;
+}
+
 #search_div {
 	position: relative;
 	top:-1.95em;
