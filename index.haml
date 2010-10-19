@@ -13,19 +13,14 @@ layout: default
           - posts.each do |post|
             %li
               %div.index_post
-                - if (post.content.split('</p>')[0]).gsub( %r{</?[^>]+?>}, '' ) != ""
-                  %div.index_post_title
-                    = "%s" % [link_to post.title, post.url]
-                  %div.index_post_date
-                    = "%02dth" % day
-                  - if (post.content.split('</p>')[0]).gsub(%r{</?[^>]+?>}, '' ) =~ /Article contents/
+                %div.index_post_title
+                  = "%s" % [link_to post.title, post.url]
+                %div.index_post_date
+                  = "%02dth" % day
+                - if (post.content.split('</p>')[0]).gsub(%r{</?[^>]+?>}, '' ) != ""
+                  - if post.content =~ /Article Contents/
                     %div.index_post_intro
-                      = (post.content.split('<p>')[1] + " (...)").gsub( %r{</?[^>]+?>}, '' )
+                      = (post.content.split('<p>')[1] + " (...)").gsub(%r{</?[^>]+?>}, '' )
                   - else
                     %div.index_post_intro
-                      = (post.content.split('</p>')[0] + " (...)").gsub( %r{</?[^>]+?>}, '' )
-                - else
-                  %div.index_post_title
-                    = "%s" % [link_to post.title, post.url]
-                  %div.index_post_date
-                    = "%02dth" % day
+                      = (post.content.split('</p>')[0] + " (...)").gsub(%r{</?[^>]+?>}, '' )

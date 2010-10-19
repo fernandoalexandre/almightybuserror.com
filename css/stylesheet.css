@@ -489,14 +489,20 @@ h5 {
 
 .depth_3 {
 	padding-left: 2em;
+	list-style-type: square;
+	list-style-position: inside;
 }
 
 .depth_4 {
 	padding-left: 3em;
+	list-style-type: disc;
+	list-style-position: inside;
 }
 
 .depth_5 {
 	padding-left: 4em;
+	list-style-type: circle;
+	list-style-position: inside;
 }
 
 /* @end */
