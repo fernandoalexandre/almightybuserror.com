@@ -217,7 +217,6 @@ div.fancy_bg_n {
 	top: -18px;
 	width: 100%;
 	height: 18px;
-	background: transparent url('fancy_shadow_n.png') repeat-x;
 }
 
 div.fancy_bg_ne {
@@ -225,14 +224,12 @@ div.fancy_bg_ne {
 	right: -13px;
 	width: 13px;
 	height: 18px;
-	background: transparent url('fancy_shadow_ne.png') no-repeat;
 }
 
 div.fancy_bg_e {
 	right: -13px;
 	height: 100%;
 	width: 13px;
-	background: transparent url('fancy_shadow_e.png') repeat-y;
 }
 
 div.fancy_bg_se {
@@ -240,14 +237,12 @@ div.fancy_bg_se {
 	right: -13px;
 	width: 13px;
 	height: 18px;
-	background: transparent url('fancy_shadow_se.png') no-repeat;
 }
 
 div.fancy_bg_s {
 	bottom: -18px;
 	width: 100%;
 	height: 18px;
-	background: transparent url('fancy_shadow_s.png') repeat-x;
 }
 
 div.fancy_bg_sw {
@@ -255,14 +250,12 @@ div.fancy_bg_sw {
 	left: -13px;
 	width: 13px;
 	height: 18px;
-	background: transparent url('fancy_shadow_sw.png') no-repeat;
 }
 
 div.fancy_bg_w {
 	left: -13px;
 	height: 100%;
 	width: 13px;
-	background: transparent url('fancy_shadow_w.png') repeat-y;
 }
 
 div.fancy_bg_nw {
@@ -270,7 +263,6 @@ div.fancy_bg_nw {
 	left: -13px;
 	width: 13px;
 	height: 18px;
-	background: transparent url('fancy_shadow_nw.png') no-repeat;
 }
 
 div#fancy_title {
@@ -300,16 +292,13 @@ div#fancy_title table td {
 td#fancy_title_left {
 	height: 32px;
 	width: 15px;
-	background: transparent url(fancy_title_left.png) repeat-x;
 }
 
 td#fancy_title_main {
 	height: 32px;
-	background: transparent url(fancy_title_main.png) repeat-x;
 }
 
 td#fancy_title_right {
 	height: 32px;
 	width: 15px;
-	background: transparent url(fancy_title_right.png) repeat-x;
 }
