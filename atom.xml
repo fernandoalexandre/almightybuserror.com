@@ -11,7 +11,7 @@ layout: nil
  <id>http://almightybuserror.com/</id>
  <author>
    <name>Fernando Alexandre</name>
-   <email>kernl@almightybuserror.com</email>
+   <email>f.alexandre@almightybuserror.com</email>
  </author>
 
  {% for post in site.posts %}
@@ -20,7 +20,7 @@ layout: nil
    <link href="http://almightybuserror.com{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
    <id>http://almightybuserror.com{{ post.id }}</id>
-   <content type="html">{{ post.content | xml_escape }}</content>
+   <content type="html"></content>
  </entry>
  {% endfor %}
 

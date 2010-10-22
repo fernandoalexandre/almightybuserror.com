@@ -164,6 +164,34 @@ sub {
 	margin-bottom: 0.7em;
 }
 
+#badges {
+	padding-top: 0.35em;
+	width:auto;
+	float: left;
+}
+
+.badge {
+	border: none;
+}
+
+.badge_link {
+	width: auto;
+	background-color: transparent;
+	padding:0px;
+}
+
+.last_slot {
+	padding-right: 1em;
+	border-right: 1px solid #DDD;
+}
+
+.social_net_slot {
+	float: left;
+	border-left:1px solid #DDD;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
 .wrapper {
 	display: block;
 	width: 900px;
