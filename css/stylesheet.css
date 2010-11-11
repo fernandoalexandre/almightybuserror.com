@@ -236,8 +236,10 @@ sub {
 }
 
 .top {
+	position: fixed;
+	bottom:5px;
 	text-align: right;
-	background: #fff;
+	background: transparent;
 }
 
 .top a {
@@ -767,6 +769,7 @@ hr::after {
 
 #disqus_thread {
 	background:#fff;
+	padding-bottom: 3em;
 }
 
 #disqus_thread a {
