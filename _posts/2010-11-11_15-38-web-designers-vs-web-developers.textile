@@ -7,7 +7,7 @@ tags:
 - WebDevelopment
 ---
 
-<a href="http://www.landingpages.co.il/wix/web-designers-vs-developers.png" class="lightbox" id="img"><img style="width:100%" src="http://www.landingpages.co.il/wix/web-designers-vs-developers.png"/></a>
+<a href="http://www.landingpages.co.il/wix/web-designers-vs-developers.png" class="lightbox" id="img"><img style="width:95%" src="http://www.landingpages.co.il/wix/web-designers-vs-developers.png"/></a>
 
 Source "Shane Snow":http://www.shanesnow.com/
 
