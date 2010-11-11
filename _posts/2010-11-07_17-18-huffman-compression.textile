@@ -1,0 +1,359 @@
+---
+layout: post
+title: "Huffman Coding"
+tags:
+- Huffman
+- Introduction
+---
+
+<!-- TOC --!>
+
+From "Wikipedia":http://en.wikipedia.org/wiki/Huffman_coding:
+
+<blockquote><span class="qstart">&#8220;</span>In computer science and information theory, Huffman coding is an entropy encoding algorithm used for lossless data compression. The term refers to the use of a variable-length code table for encoding a source symbol (such as a character in a file) where the variable-length code table has been derived in a particular way based on the estimated probability of occurrence for each possible value of the source symbol.<span class="qend">&#8221;</span></blockquote>
+
+Since Huffman encoding uses a variable-length codes, it needs a mechanism to be able to distinguish each symbol code, this mechanism is called prefix condition. It means that for any 2 codes, one can't be the prefix of another. Another way to present this notion is for each code C<sub>i</sub> and C<sub>j</sub>, C<sub>i</sub> isn't the prefix of C<sub>j</sub>.
+
+h2. Huffman Preprocessing
+
+There are three types of Huffman coding:
+
+* Adaptive: The Huffman coding tree evolves (a single symbol can have different codes over time) while reading the file for compression by calculating the probability on-the-fly.
+* Semi-Adaptive: The file to be compressed is read first to determine the probability of each symbol.
+* Static: All symbols have a pre-determined probability.
+
+h2. Prefix condition
+
+Example of a variable-length code that doesn't have the prefix condition:
+
+<notextile><table class="normal"><tr>
+<th>Symbol</th><th>Code</th></tr>
+<tr><td>A</td><td>0</td></tr>
+<tr><td>B</td><td>01</td></tr>
+<tr><td>C<td>00</td></tr></table></notextile>
+
+As you can see, when you read 00 from a file, it can be AA or C because the code 0, is a prefix of 00.
+
+Example of a variable-code with prefix condition:
+
+<notextile><table class="normal"><tr>
+<th>Symbol</th><th>Code</th></tr>
+<tr><td>A</td><td>0</td></tr>
+<tr><td>B</td><td>10</td></tr>
+<tr><td>C<td>110</td></tr>
+<tr><td>D<td>1110</td></tr>
+<tr><td>E<td>1111</td></tr></table></notextile>
+
+As you can see, when you read a file, it is impossible to mistake a symbol for another, this can also be represented by a coding tree.
+
+h2. Huffman coding tree
+
+To create a Huffman coding tree you need an alphabet and the associated probability to each symbol, for example:
+
+<notextile><table class="normal"><tr>
+<th>Symbol</th><th>Probability</th></tr>
+<tr><td>A</td><td>0.5</td></tr>
+<tr><td>B</td><td>0.2</td></tr>
+<tr><td>C<td>0.2</td></tr>
+<tr><td>D<td>0.1</td></tr></table></notextile>
+
+
+The following tree is created (since B and C have the same probability is can differ from the one presented):
+
+<notextile><svg width="186pt" height="312pt"
+ viewBox = "-1 -1 185 311"
+ xmlns="http://www.w3.org/2000/svg">
+<g class="graph" style="font-family:Times-Roman;font-size:14.00;">
+<title>D</title>
+<g class="node"><title>0.5</title>
+<ellipse cx="56" cy="110" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="56" y="115">0.5</text>
+</g>
+<g class="node"><title>&#39;B&#39; 0.2</title>
+<ellipse cx="35" cy="198" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="35" y="203">&#39;B&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.5-&gt;&#39;B&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M52,128C49,140 45,156 42,170"/>
+<polygon style="fill:black;stroke:black;" points="45,171 39,180 39,169 45,171"/>
+<text text-anchor="middle" x="53" y="159">1</text>
+</g>
+<g class="node"><title>0.3</title>
+<ellipse cx="110" cy="198" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="110" y="203">0.3</text>
+</g>
+<g class="edge"><title>0.5-&gt;0.3</title>
+<path style="fill:none;stroke:black;" d="M66,127C74,140 85,158 94,172"/>
+<polygon style="fill:black;stroke:black;" points="97,171 100,181 92,175 97,171"/>
+<text text-anchor="middle" x="92" y="159">0</text>
+</g>
+<g class="node"><title>&#39;D&#39; 0.1</title>
+<ellipse cx="70" cy="286" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="70" y="291">&#39;D&#39; 0.1</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;D&#39; 0.1</title>
+<path style="fill:none;stroke:black;" d="M102,215C96,228 89,245 82,259"/>
+<polygon style="fill:black;stroke:black;" points="85,260 78,268 79,257 85,260"/>
+<text text-anchor="middle" x="100" y="247">1</text>
+</g>
+<g class="node"><title>&#39;C&#39; 0.2</title>
+<ellipse cx="149" cy="286" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="149" y="291">&#39;C&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;C&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M118,215C124,228 131,245 137,259"/>
+<polygon style="fill:black;stroke:black;" points="140,257 141,268 134,260 140,257"/>
+<text text-anchor="middle" x="134" y="247">0</text>
+</g>
+<g class="node"><title>1.0</title>
+<ellipse cx="102" cy="22" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="102" y="27">1.0</text>
+</g>
+<g class="edge"><title>1.0-&gt;0.5</title>
+<path style="fill:none;stroke:black;" d="M93,39C86,52 77,69 70,84"/>
+<polygon style="fill:black;stroke:black;" points="73,86 65,93 67,83 73,86"/>
+<text text-anchor="middle" x="89" y="71">1</text>
+</g>
+<g class="node"><title>&#39;A&#39; 0.5</title>
+<ellipse cx="132" cy="110" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="132" y="115">&#39;A&#39; 0.5</text>
+</g>
+<g class="edge"><title>1.0-&gt;&#39;A&#39; 0.5</title>
+<path style="fill:none;stroke:black;" d="M108,40C112,52 118,69 123,83"/>
+<polygon style="fill:black;stroke:black;" points="126,81 126,92 120,84 126,81"/>
+<text text-anchor="middle" x="123" y="71">0</text>
+</g>
+</g>
+</svg></notextile>
+
+
+h3. Algorithm
+
+The algorithm to create this tree is the following:
+
+# Create a node for each symbol and add them to a pool;
+# Sort the pool by ascendending probability;
+# Choose the two nodes with less probability;
+# Create a new node with the sum the probability;
+# Connect the two nodes to a new node with the sum of the probability;
+# Remove the two chosen nodes from the pool and add the new node;
+# Back to step *2* until all nodes are connected.
+
+h4. Step 1 .. 2
+
+<notextile><svg width="316pt" height="48pt"
+ viewBox = "-1 -1 315 47"
+ xmlns="http://www.w3.org/2000/svg">
+<g class="graph" style="font-family:Times-Roman;font-size:14.00;">
+<title>D</title>
+<g class="node"><title>&#39;D&#39; 0.1</title>
+<ellipse cx="39" cy="22" rx="33" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="39" y="27">&#39;D&#39; 0.1</text>
+</g>
+<g class="node"><title>&#39;B&#39; 0.2</title>
+<ellipse cx="121" cy="22" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="121" y="27">&#39;B&#39; 0.2</text>
+</g>
+<g class="node"><title>&#39;C&#39; 0.2</title>
+<ellipse cx="199" cy="22" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="199" y="27">&#39;C&#39; 0.2</text>
+</g>
+<g class="node"><title>&#39;A&#39; 0.5</title>
+<ellipse cx="278" cy="22" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="278" y="27">&#39;A&#39; 0.5</text>
+</g>
+</g>
+</svg></notextile>
+
+
+h4. Step 3 .. 6
+
+<notextile>
+<svg width="232pt" height="136pt"
+ viewBox = "-1 -1 231 135"
+ xmlns="http://www.w3.org/2000/svg">
+<g class="graph" style="font-family:Times-Roman;font-size:14.00;">
+<title>D</title>
+<g class="node"><title>&#39;B&#39; 0.2</title>
+<ellipse cx="39" cy="22" rx="33" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="39" y="27">&#39;B&#39; 0.2</text>
+</g>
+<g class="node"><title>0.3</title>
+<ellipse cx="118" cy="22" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="118" y="27">0.3</text>
+</g>
+<g class="node"><title>&#39;D&#39; 0.1</title>
+<ellipse cx="78" cy="110" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="78" y="115">&#39;D&#39; 0.1</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;D&#39; 0.1</title>
+<path style="fill:none;stroke:black;" d="M110,39C104,52 97,69 90,83"/>
+<polygon style="fill:black;stroke:black;" points="93,84 86,92 87,81 93,84"/>
+<text text-anchor="middle" x="104" y="71">1</text>
+</g>
+<g class="node"><title>&#39;C&#39; 0.2</title>
+<ellipse cx="157" cy="110" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="157" y="115">&#39;C&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;C&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M126,39C132,52 139,69 145,83"/>
+<polygon style="fill:black;stroke:black;" points="148,81 149,92 142,84 148,81"/>
+<text text-anchor="middle" x="142" y="71">0</text>
+</g>
+<g class="node"><title>&#39;A&#39; 0.5</title>
+<ellipse cx="194" cy="22" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="194" y="27">&#39;A&#39; 0.5</text>
+</g>
+</g>
+</svg>
+</notextile>
+
+h4. Repeat
+
+<div class="standard_div">
+    <div style="width:45%; float:left">
+<notextile><svg width="186pt" height="224pt"
+ viewBox = "-1 -1 185 223"
+ xmlns="http://www.w3.org/2000/svg">
+<g class="graph" style="font-family:Times-Roman;font-size:14.00;">
+<title>D</title>
+<g class="node"><title>0.5</title>
+<ellipse cx="64" cy="22" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="64" y="27">0.5</text>
+</g>
+<g class="node"><title>&#39;B&#39; 0.2</title>
+<ellipse cx="35" cy="110" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="35" y="115">&#39;B&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.5-&gt;&#39;B&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M58,40C54,52 49,68 44,82"/>
+<polygon style="fill:black;stroke:black;" points="47,83 41,92 41,81 47,83"/>
+<text text-anchor="middle" x="57" y="71">1</text>
+</g>
+<g class="node"><title>0.3</title>
+<ellipse cx="110" cy="110" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="110" y="115">0.3</text>
+</g>
+<g class="edge"><title>0.5-&gt;0.3</title>
+<path style="fill:none;stroke:black;" d="M73,39C80,52 89,69 96,84"/>
+<polygon style="fill:black;stroke:black;" points="99,83 101,93 93,86 99,83"/>
+<text text-anchor="middle" x="92" y="71">0</text>
+</g>
+<g class="node"><title>&#39;D&#39; 0.1</title>
+<ellipse cx="70" cy="198" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="70" y="203">&#39;D&#39; 0.1</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;D&#39; 0.1</title>
+<path style="fill:none;stroke:black;" d="M102,127C96,140 89,157 82,171"/>
+<polygon style="fill:black;stroke:black;" points="85,172 78,180 79,169 85,172"/>
+<text text-anchor="middle" x="96" y="159">1</text>
+</g>
+<g class="node"><title>&#39;C&#39; 0.2</title>
+<ellipse cx="149" cy="198" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="149" y="203">&#39;C&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;C&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M118,127C124,140 131,157 137,171"/>
+<polygon style="fill:black;stroke:black;" points="140,169 141,180 134,172 140,169"/>
+<text text-anchor="middle" x="134" y="159">0</text>
+</g>
+<g id="node10" class="node"><title>&#39;A&#39; 0.5</title>
+<ellipse cx="140" cy="22" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="140" y="27">&#39;A&#39; 0.5</text>
+</g>
+</g>
+</svg></notextile>
+    </div>
+    <div style="width:45%; float:right">
+<notextile><svg width="186pt" height="312pt"
+ viewBox = "-1 -1 185 311"
+ xmlns="http://www.w3.org/2000/svg">
+<g class="graph" style="font-family:Times-Roman;font-size:14.00;">
+<title>D</title>
+<g class="node"><title>0.5</title>
+<ellipse cx="56" cy="110" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="56" y="115">0.5</text>
+</g>
+<g class="node"><title>&#39;B&#39; 0.2</title>
+<ellipse cx="35" cy="198" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="35" y="203">&#39;B&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.5-&gt;&#39;B&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M52,128C49,140 45,156 42,170"/>
+<polygon style="fill:black;stroke:black;" points="45,171 39,180 39,169 45,171"/>
+<text text-anchor="middle" x="53" y="159">1</text>
+</g>
+<g class="node"><title>0.3</title>
+<ellipse cx="110" cy="198" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="110" y="203">0.3</text>
+</g>
+<g class="edge"><title>0.5-&gt;0.3</title>
+<path style="fill:none;stroke:black;" d="M66,127C74,140 85,158 94,172"/>
+<polygon style="fill:black;stroke:black;" points="97,171 100,181 92,175 97,171"/>
+<text text-anchor="middle" x="92" y="159">0</text>
+</g>
+<g class="node"><title>&#39;D&#39; 0.1</title>
+<ellipse cx="70" cy="286" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="70" y="291">&#39;D&#39; 0.1</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;D&#39; 0.1</title>
+<path style="fill:none;stroke:black;" d="M102,215C96,228 89,245 82,259"/>
+<polygon style="fill:black;stroke:black;" points="85,260 78,268 79,257 85,260"/>
+<text text-anchor="middle" x="100" y="247">1</text>
+</g>
+<g class="node"><title>&#39;C&#39; 0.2</title>
+<ellipse cx="149" cy="286" rx="30" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="149" y="291">&#39;C&#39; 0.2</text>
+</g>
+<g class="edge"><title>0.3-&gt;&#39;C&#39; 0.2</title>
+<path style="fill:none;stroke:black;" d="M118,215C124,228 131,245 137,259"/>
+<polygon style="fill:black;stroke:black;" points="140,257 141,268 134,260 140,257"/>
+<text text-anchor="middle" x="134" y="247">0</text>
+</g>
+<g class="node"><title>1.0</title>
+<ellipse cx="102" cy="22" rx="27" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="102" y="27">1.0</text>
+</g>
+<g class="edge"><title>1.0-&gt;0.5</title>
+<path style="fill:none;stroke:black;" d="M93,39C86,52 77,69 70,84"/>
+<polygon style="fill:black;stroke:black;" points="73,86 65,93 67,83 73,86"/>
+<text text-anchor="middle" x="89" y="71">1</text>
+</g>
+<g class="node"><title>&#39;A&#39; 0.5</title>
+<ellipse cx="132" cy="110" rx="31" ry="18" style="fill:none;stroke:black;"/>
+<text text-anchor="middle" x="132" y="115">&#39;A&#39; 0.5</text>
+</g>
+<g class="edge"><title>1.0-&gt;&#39;A&#39; 0.5</title>
+<path style="fill:none;stroke:black;" d="M108,40C112,52 118,69 123,83"/>
+<polygon style="fill:black;stroke:black;" points="126,81 126,92 120,84 126,81"/>
+<text text-anchor="middle" x="123" y="71">0</text>
+</g>
+</g>
+</svg></notextile>
+            </div>
+</div>
+
+Which translates to:
+
+<notextile><table class="normal"><tr>
+<th>Symbol</th><th>Probability</th></tr>
+<tr><td>A</td><td>0</td></tr>
+<tr><td>B</td><td>11</td></tr>
+<tr><td>C<td>101</td></tr>
+<tr><td>D<td>100</td></tr></table></notextile>
+
+
+As a side note, there is currently no algorithm that creates better codesfor alphabets that have independent probabilities (e.g. symbols don't have dependencies between them as some latin languages have with "qu").
+
+The encoding is done with a dictionary (the table with the relation Symbol - Code) by directly replacing a symbol with its code.
+
+h2. Coding
+
+To compress the file it's needed to save the alphabet and the respective probabilities to be able to decode the text(to rebuild the tree). Normally this is done by saving the total number of characters and the number of occurrences of each symbol which are all integers. That saves storing size on the compressed file and avoids parsing problems on the decoder side.
+
+h2. Decoding
+
+To decode a file all that is needed is to read bit-by-bit and follow the coding tree until a leaf(node with no childs) is reached and a symbol is sent to the output.
+
+Thank you for reading.
+

@@ -1,12 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>
             Almighty Bus Error
         </title>
         <link href="atom.xml" type="application/atom+xml" rel="alternate" title="ATOM" />
-        <meta name="viewport" content="width=1000" /><!-- iPhone -->
+        <meta name="viewport" content="width=900" /><!-- iPhone -->
         <meta name="description" content="{Description}" />
         <meta name="google-site-verification" content="LhqflhiixKIv60h5urxUQN3LmHU2oKIs3hNdI8AGuKc" />
         <link rel="stylesheet" type="text/css" href="/js/fancybox/jquery.fancybox.min.css"/>
@@ -19,9 +18,8 @@
                     <a href="/" id="main_title">Almighty Bus Error</a>
                 </h1>
                 <div id="search_div">
-                    <div id="searchcontrol"><strong style="display:none">Loading search...</strong></div>
+                    <div id="searchcontrol"><span style="display:none">Loading search...</span></div>
                 </div>
-
             </div>
             <div class="menu_outer standard_div">
                 <div class="menu">
@@ -36,12 +34,12 @@
                     </div>
                 </div>
                 <div id="badges">
-                    <a href="/atom.xml" class="badge_link"><img src="/images/rss_image.png" class="badge" /></a>
+                    <a href="/atom.xml" class="badge_link"><img alt="" src="/images/rss_image.png" class="badge" /></a>
                 </div>
             </div>
             <div class="main standard_div">
                 <div class="standard_div">{{content}}</div>
-                <div class="top"><h2><a href="#top">[top]</a></h2></div>
+                <div class="top standard_div"><a href="#top">[top]</a></div>
             </div>
         </div>
         <script src="http://www.google.com/jsapi?key=ABQIAAAAlxeLFQ-cvaJE_kfTbHzc7xTK-NxwZ8YedYVvs27jFRiyeiQZOxQDJ0530vY0ry1bJH2Nz7gnDbGedw" type="text/javascript"></script>
@@ -50,32 +48,25 @@
         <script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.2.1.min.js"></script>
         <script type="text/javascript" src="/js/misc.min.js"></script>
 
-        <script language="Javascript" type="text/javascript">
+        <script type="text/javascript">
             //<![CDATA[
 
-        google.load("search", "1");
+            google.load("search", "1");
 
-        function OnLoad() {
-            // Create a search control
-            var searchControl = new google.search.SearchControl();
+            function OnLoad() {
+                var searchControl = new google.search.SearchControl();
+                var siteSearch = new google.search.WebSearch();
+                siteSearch.setUserDefinedLabel("Search Results");
+                siteSearch.setSiteRestriction("almightybuserror.com");
+                var options = new google.search.SearcherOptions();
+                options.setExpandMode(google.search.SearchControl.EXPAND_MODE_OPEN);
+                searchControl.addSearcher(siteSearch, options);
+                searchControl.draw(document.getElementById("searchcontrol"));
+            }
+            google.setOnLoadCallback(OnLoad);
 
-            // Add in a full set of searchers
-            var siteSearch = new google.search.WebSearch();
-            siteSearch.setUserDefinedLabel("Search Results");
-            siteSearch.setSiteRestriction("almightybuserror.com");
-
-            var options = new google.search.SearcherOptions();
-            options.setExpandMode(google.search.SearchControl.EXPAND_MODE_OPEN);
-            searchControl.addSearcher(siteSearch, options);
-
-            // Tell the searcher to draw itself and tell it where to attach
-            searchControl.draw(document.getElementById("searchcontrol"));
-        }
-google.setOnLoadCallback(OnLoad);
-
-//]]>
-</script>
-
-</body>
+            //]]>
+        </script>
+    </body>
 </html>
 

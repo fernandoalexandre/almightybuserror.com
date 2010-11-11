@@ -50,7 +50,7 @@ h4. Line presentation
 
 h4. Example
 
-<a href="/images/posts/latex_table.png" class="lightbox" id="img"><img src="/images/posts/latex_table.png" style="width: 560px;"/></a>
+<a href="/images/posts/latex_table.png" class="lightbox" ><img src="/images/posts/latex_table.png" style="width: 560px;"/></a>
 
 Is the result of:
 <pre><code class="prettyprint">\begin{table}[h]

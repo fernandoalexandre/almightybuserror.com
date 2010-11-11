@@ -22,11 +22,11 @@ Some posts now also contain a table of contents to help with navigation(presente
 <div class="standard_div">
     <div style="width:45%; float:left">
         Before:
-        <a href="/images/posts/old.png" class="lightbox" id="img"><img src="/images/posts/old.png" style="width:100%"/></a>
+        <a href="/images/posts/old.png" class="lightbox"><img src="/images/posts/old.png" style="width:100%"/></a>
     </div>
     <div style="width:45%; float:right">
         After:
-        <a href="/images/posts/new.png" class="lightbox" id="img"><img src="/images/posts/new.png" style="width:100%"/></a>
+        <a href="/images/posts/new.png" class="lightbox"><img src="/images/posts/new.png" style="width:100%"/></a>
     </div>
 </div>
 
@@ -45,6 +45,7 @@ h2. Technologies behind ABE
 h3. Jekyll
 
 From "mojombo/jekyll":http://github.com/mojombo/jekyll/wiki:
+
 <blockquote><span class="qstart">&#8220;</span>Jekyll is a simple, blog aware, static site generator. It takes a template directory (representing the raw form of a website), runs it through Textile or Markdown and Liquid converters, and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project's page or blog right here from GitHub.<span class="qend">&#8221;</span></blockquote>
 
 Since the original "Jekyll":http://github.com/mojombo/jekyll/ does not have HAML support ("liquid":http://www.liquidmarkup.org/ is very weak from programming point of view) I decided to use a out-dated (though fully functional) "fork":http://en.wikipedia.org/wiki/Fork_(software_development) from "jberkel":http://github.com/jberkel/jekyll.
@@ -53,6 +54,7 @@ h4. HAML
 
 "HAML":http://haml-lang.com/ is a language used to define templates (such as the "index":/index.html) on Rails applications, more robust than the original liquid.
 For example, the index is generated from the following code:
+
 <pre><code class="prettyprint lang-haml">---
 layout: default
 ---
@@ -85,6 +87,7 @@ Yes, thats alot of regular expressions. Since Jekyll only generates a static sit
 h4. Textile
 
 From "Wikipedia":http://en.wikipedia.org/wiki/Textile_(markup_language):
+
 <blockquote><span class="qstart">&#8220;</span>Textile is a lightweight markup language originally developed by Dean Allen and billed as a "humane Web text generator". Textile converts its marked-up text input to valid, well-formed XHTML and also inserts character entity references for apostrophes, opening and closing single and double quotation marks, ellipses and em dashes.<span class="qend">&#8221;</span></blockquote>
 
 Instead of Markdown, Almighty Bus Error uses textile to present the posts (and some hack'ish html to be honest).
@@ -92,6 +95,7 @@ Instead of Markdown, Almighty Bus Error uses textile to present the posts (and s
 For example in "Dynamic Programming":/2010/03/21/dynamic-programming.html:
 
 <pre><code class="prettyprint lang-textile">From "Wikipedia":http://en.wikipedia.org/wiki/Dynamic_programming:
+
 <blockquote><span class="qstart">&#8220;</span>In mathematics and computer science, dynamic programming is a method of solving complex problems by breaking them down into simpler steps. It is applicable to problems that exhibit the properties of overlapping subproblems which are only slightly smaller and optimal substructure (described below). When applicable, the method takes much less time than naive methods.
 Top-down dynamic programming simply means storing the results of certain calculations, which are then re-used later because the same calculation is a sub-problem in a larger calculation. Bottom-up dynamic programming involves formulating a complex calculation as a recursive series of simpler calculations.<span class="qend">&#8221;</span></blockquote>
 As described above, dynamic programming consists of two main steps:

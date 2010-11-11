@@ -11,6 +11,7 @@ tags:
 <!-- TOC --!>
 
 From "Wikipedia":http://en.wikipedia.org/wiki/Dynamic_programming:
+
 <blockquote><span class="qstart">&#8220;</span>In mathematics and computer science, dynamic programming is a method of solving complex problems by breaking them down into simpler steps. It is applicable to problems that exhibit the properties of overlapping subproblems which are only slightly smaller and optimal substructure (described below). When applicable, the method takes much less time than naive methods.
 Top-down dynamic programming simply means storing the results of certain calculations, which are then re-used later because the same calculation is a sub-problem in a larger calculation. Bottom-up dynamic programming involves formulating a complex calculation as a recursive series of simpler calculations.<span class="qend">&#8221;</span></blockquote>
 
@@ -36,7 +37,7 @@ General cases recursively define the problem, since the fibonacci numbers proble
 h5. Merging it all
 
 The result function is:
-<a href="/images/posts/fibseq.png" class="lightbox" id="img"><img src="/images/posts/fibseq.png" style="margin:auto"/></a>
+<a href="/images/posts/fibseq.png" class="lightbox" ><img src="/images/posts/fibseq.png" style="margin:auto"/></a>
 
 To convert the recursive into a iterative algorithm using memoization *is convenient that all the general cases are defined by breaking the problem we want to solve into smaller ones*.
 

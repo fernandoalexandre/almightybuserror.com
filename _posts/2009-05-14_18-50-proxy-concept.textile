@@ -14,7 +14,7 @@ A problem for people that are creating a proxy for learning purposes is that mos
 For a browser using HTTP/1.0 to fetch a webpage, it first needs to establish a connection with the webserver and use a "GET" command on the index (or another page if specified). When it finishes receiving and processing that page, the browser identifies every resource the page uses (be it images, scripts or _Cascading Style Sheets_). For each resource it needs, the browser creates a connection and sends a request. The webserver closes the connection after it finishes sending the resource.
 
 The proxy will work like the following:
-<a href="/images/posts/proxy_sequence.png" class="lightbox" id="img"><img src="/images/posts/proxy_sequence.png"/></a>
+<a href="/images/posts/proxy_sequence.png" class="lightbox" ><img src="/images/posts/proxy_sequence.png"/></a>
 
 
 A browser using HTTP/1.1 does, however use _pipelining_ and persistent connections, which after requesting and receiving the webpage the server does not close the connection, and can keeps receiving requests from the browser for resources avaiable locally until the client closes the connection (by using the _Connection_ property with *keep-alive* value).

@@ -115,7 +115,7 @@ h4. Converting other curves to Bezier
 
 To convert the control points of another type of curve to a Bezier control points you need to:
 
-<pre><code class="prettyprint">mCustom * mInverseBezier * customCntlPoints = bezierCntlPoints</code></pre>
+<pre><code class="prettyprint">mInverseBezier * mCustom * customCntlPoints = bezierCntlPoints</code></pre>
 
 <notextile><div style="float:right; margin-left:auto; margin: 0px; padding:1em">
 <table style="color:#000"><tr>
@@ -160,6 +160,33 @@ h4. Example of a conversion from Catmull-Rom to Bezier
 
 <notextile><div style="width:100%; float:right; margin-left:auto; margin: 0px; padding:0.5em">
 <table style="color:#000"><tr>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin-right: 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>0</td>
+<td align="center" valign="center" width=30>1/3</td>
+<td align="center" valign="center" width=30>2/3</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+<tr>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+<td align="center" valign="center" width=30>1</td>
+</tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
 <td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
 <td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
 <tr>
@@ -185,33 +212,6 @@ h4. Example of a conversion from Catmull-Rom to Bezier
 <td align="center" valign="center" width=35>1</td>
 <td align="center" valign="center" width=35>0</td>
 <td align="center" valign="center" width=35>0</td>
-</tr>
-</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
-<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
-<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
-<tr>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>1</td>
-</tr>
-<tr>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>1/3</td>
-<td align="center" valign="center" width=30>1</td>
-</tr>
-<tr>
-<td align="center" valign="center" width=30>0</td>
-<td align="center" valign="center" width=30>1/3</td>
-<td align="center" valign="center" width=30>2/3</td>
-<td align="center" valign="center" width=30>1</td>
-</tr>
-<tr>
-<td align="center" valign="center" width=30>1</td>
-<td align="center" valign="center" width=30>1</td>
-<td align="center" valign="center" width=30>1</td>
-<td align="center" valign="center" width=30>1</td>
 </tr>
 </table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
 <td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
@@ -246,6 +246,33 @@ h4. Example of a conversion from B-Spline to Bezier
 
 <notextile><div style="width:100%;float:right; margin-left:auto; margin: 0px; padding:0.5em; padding-bottom:2em;">
 <table style="color:#000"><tr>
+<td><table border=0 cellpadding=0 cellspacing=0px style="margin-right:1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
+<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1/3</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>0</td>
+    <td align="center" valign="center" width=30>1/3</td>
+    <td align="center" valign="center" width=30>2/3</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+    <tr>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    <td align="center" valign="center" width=30>1</td>
+    </tr>
+</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
 <td><table border=0 cellpadding=0 cellspacing=0px style="border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
 <td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
     <tr>
@@ -273,33 +300,6 @@ h4. Example of a conversion from B-Spline to Bezier
     <td align="center" valign="center" width=35>0</td>
     </tr>
 
-</table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
-<td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
-<td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">
-    <tr>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>1</td>
-    </tr>
-    <tr>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>1/3</td>
-    <td align="center" valign="center" width=30>1</td>
-    </tr>
-    <tr>
-    <td align="center" valign="center" width=30>0</td>
-    <td align="center" valign="center" width=30>1/3</td>
-    <td align="center" valign="center" width=30>2/3</td>
-    <td align="center" valign="center" width=30>1</td>
-    </tr>
-    <tr>
-    <td align="center" valign="center" width=30>1</td>
-    <td align="center" valign="center" width=30>1</td>
-    <td align="center" valign="center" width=30>1</td>
-    <td align="center" valign="center" width=30>1</td>
-    </tr>
 </table></td><td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td></tr></table></td>
 <td><table border=0 cellpadding=0 cellspacing=0px style="margin: 0px 0px 0px 1ex; border-left:1px solid #000; border-right:1px solid #000; color:#000"><tr>
 <td style ="border-top:1px solid #000; border-bottom:1px solid #000;">&nbsp</td><td><table border=0 cellpadding=0 cellspacing=0 style="color:#000;">

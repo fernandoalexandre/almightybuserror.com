@@ -32,6 +32,7 @@ RewriteRule (.*) $1.gz [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule (.*) /error.html [L]
+AddDefaultCharset UTF-8
 
 ErrorDocument 404 /404.html
 

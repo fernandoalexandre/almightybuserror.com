@@ -6,21 +6,24 @@ layout: nil
     <url>
         <loc>http://almightybuserror.com/index.html</loc>
         <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-        <priority>0.8</priority>
+        <priority>1.0</priority>
     </url>
 
     <url>
         <loc>http://almightybuserror.com/about.html</loc>
         <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+        <priority>0.5</priority>
     </url>
     <url>
         <loc>http://almightybuserror.com/cv.html</loc>
         <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+        <priority>0.5</priority>
     </url>
 
     <url>
         <loc>http://almightybuserror.com/tag.html</loc>
         <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+        <priority>0.4</priority>
     </url>
 
 
@@ -28,6 +31,7 @@ layout: nil
     <url>
         <loc>http://almightybuserror.com{{ post.url }}</loc>
         <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+        <priority>0.9</priority>
     </url>
     {% endfor %}
 </urlset>
