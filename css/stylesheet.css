@@ -1,7 +1,6 @@
 /* @override 
 	http://localhost:4000/css/stylesheet.css
 	file:///css/stylesheet.css
-	http://disqus.com/forums/almightybuserror/styles.css
 */
 
 /* @group Reset */
@@ -95,12 +94,14 @@ code.prettyprint{border-left:1px solid #888;display:block;padding:1em;font: 12px
 html, body {
 	width: 100%;
 	height: 100%;
-	font-family: Georgia, 'Times New Roman', Times;
+	font-family: Georgia, 'Times New Roman', Times, serif;
 	font-size: 16px;
 	line-height: 150%;
 	color: #333;
 	text-align: left;
-	background: #6c1212
+	/*background: #6c1212;*/
+	background: url(../images/bg.png) repeat;
+
 }
 
 p {
@@ -145,19 +146,19 @@ sub {
 .header {
 	margin-top: 2em;
 	margin-bottom: 20px;
-	height:225px;
-	text-align:center;
+	height: 225px;
+	text-align: center;
 	background: url(../images/main.png) no-repeat 120px 33px;
 }
 
 #main_title {
-	background-color:transparent;
-	color:#df423b;
+	background-color: transparent;
+	color: #df423b;
 	margin-bottom: 20px;
 }
 
 #search_div {
-	display:block;
+	display: block;
 	position: relative;
 	width: 200px !important;
 	left: 330px;
@@ -170,13 +171,14 @@ sub {
 
 #badges {
 	padding-top: 0.35em;
-	width:auto;
+	width: auto;
 	float: left;
 }
 
 #error {
 	padding-left: 5em;
 	padding-right: 5em;
+	padding-bottom: 0.9em;
 }
 
 .badge {
@@ -207,6 +209,8 @@ sub {
 	margin: auto;
 	overflow: hidden;
 	clear: both;
+	border-left: 2px #6c1212 solid;
+	border-right: 2px #6c1212 solid;
 	background: #fff !important;
 }
 
@@ -238,6 +242,7 @@ sub {
 .top {
 	position: fixed;
 	bottom:5px;
+	margin-left: 5px;
 	text-align: right;
 	background: transparent;
 }
@@ -455,6 +460,7 @@ h5 {
 	color: #df423b;
 	text-align:right;
 	overflow:auto;
+	line-height:110%;
 	width: 100%;
 }
 
@@ -464,7 +470,8 @@ h5 {
 }
 
 .month {
-	padding-bottom: 1em;
+	padding-bottom: 0.4em;
+	background: none;
 }
 
 .index_post {
@@ -479,7 +486,7 @@ h5 {
 }
 
 .month li:nth-child(odd) {
-	background: #FFF;
+	background: none;
 }
 
 .index_post_title {
@@ -592,7 +599,7 @@ blockquote {
 
 img {
 	display: block;
-	background-color: none;
+	background-color: transparent;
 	border: 1px solid #999;
 	padding: 5px;
 	text-align: center;
@@ -617,7 +624,7 @@ img {
 	width: 200px;
 	text-align: right;
 	display: block;
-	border-top: 1px #CCC solid;
+	/*border-top: 1px #CCC solid;*/
 }
 
 .lightbox {
@@ -647,7 +654,7 @@ img {
 
 .post {
 	display: block;
-	background: #f6f6f6;
+	/*background: #f6f6f6;*/
 }
 
 .post_content {
@@ -725,8 +732,14 @@ hr::after {
 
 /* @group Tags */
 
+#tags {
+	width: 80%;
+	margin: auto;
+}
+
 .taglist h2 {
 	color: #df423b;
+	font-size: 1.5em;
 	margin-top: 1em;
 	margin-bottom: 0.3em;
 }
@@ -745,6 +758,10 @@ hr::after {
 	display: inline-block;
 	padding: 0;
 	margin: 0;
+}
+
+.date {
+	padding-left: 1em;
 }
 
 /* @end */
@@ -774,6 +791,6 @@ hr::after {
 
 #disqus_thread a {
 	background: transparent;
-	background-color: none;
+	background-color: transparent;
 }
 /* @end */
