@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Android Snippet: Fixed Orientation"
+tags:
+- Android
+- Snippet
+---
+
+To lock an Activity's screen orientation (Portrait or Landscape) you need to use the
+following snippet:
+
+
+<pre><code class="prettyprint lang-java">// You can use ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE to lock landscape.
+
+setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);</pre></code>
+
+

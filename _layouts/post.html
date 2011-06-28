@@ -2,30 +2,28 @@
 layout: default
 ---
 
-<div class="post standard_div">
-    <div class="datetime">
-        <div class="standard_div">{{ page.date | date:"%B %d, %Y at %H:%M" }}</div>
-        <div class="tags standard_div">
-            Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase }}">{{ tag }}</a> {% endfor %}
+<div class="post_content">
+    <h2 class="post_title standard_div">
+        <a href="{{ post.url }}">{{ page.title }}</a>
+    </h2>
+    <div class="post_publish_info standard_div">
+        <div class="dsq_goto_comments">
+            <a href="{{ post.url }}#disqus_thread" class="dsq-comment-count comment_number"></a>
         </div>
-        <div class="dsq_goto_comments standard_div">
-            <a class="dsq-comment-count" href="{{ post.url }}#disqus_thread">Comments (View)</a>
-        </div>
+        <div class="post_date">{{ page.date | date:"%B %d, %Y at %H:%M" }}</div>
     </div>
-    <div class="post_content">
-        <h2 class="standard_div">
-            <a href="{{ post.url }}">{{ page.title }}</a>
-        </h2>
-        <div class="standard_div">{{content}}</div>
-        <hr />
-        <div class="post disqus">
+    <div class="standard_div">{{content}}</div>
+    <div class="tags standard_div">
+            Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase }}">{{ tag }}</a> {% endfor %}
+    </div>
+    <hr />
+    <div class="post disqus">
             <div id="disqus_thread"></div>
             <script type="text/javascript" src="http://disqus.com/forums/almightybuserror/embed.js">
             </script>
             <noscript>
                 <a href="http://disqus.com/forums/almightybuserror/?url=ref">View the discussion thread.</a>
             </noscript>
-        </div>
     </div>
 </div>
 <script type="text/javascript">

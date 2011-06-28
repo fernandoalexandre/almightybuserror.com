@@ -1,0 +1,81 @@
+---
+layout: post
+title: "Android: Anatomy of a Application"
+tags:
+- Android
+- Basics
+---
+
+<!-- TOC --!>
+
+This article's objective is to present the elements that an Android application usually contains and how they interact.
+
+An Android application is a apk file containing the compiled classes which. The APK signed by the developer using a private RSA key to ensure authenticity (using the public key).
+
+h3. Manifest
+
+<pre><code class="prettyprint lang-xml"><?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.almightybuserror.Example" android:versionCode="1"
+	android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:theme="@android:style/Theme.NoTitleBar">
+		<uses-library android:name="com.google.android.maps"
+			android:required="true" />
+
+		<activity android:name="Example" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<service android:name=".AService" />
+		<service android:name=".AnotherService" />
+
+		<provider android:name="com.almightybuserror.Example.providers.ExamplesContentProvider" android:authorities="com.almightybuserror.Example.providers.ExamplesContentProvider" />
+	</application>
+</manifest></code></pre>
+
+As the example shows, the manifest contains information about which permissions it needs to function, application information and entry point aswell as service and ContentProvider declaration.
+
+More information about the Manifest can be in the "reference":http://developer.android.com/guide/topics/manifest/manifest-intro.html.
+
+h3. Activities
+
+The activities are responsible for the start of an process, one application can have multiple activities, however there must be one main activity from where the application is launched (defined in the Manifest). The activity handles most events triggered (by overriding certain functions) such as focus (onResume/onPause), initiation (onCreate/onDestroy) aswell as handling elements unique to a activity such as the Menu (onCreateOptionsMenu/onOptionsItemSelected) and Orientation change (onConfigurationChanged).
+
+An activity's cycle of life is as follows:
+
+!http://developer.android.com/images/activity_lifecycle.png!
+
+More information on the Activity can be found in the "reference":http://developer.android.com/reference/android/app/Activity.html.
+
+h3. Interface resources
+
+<pre><code class="prettyprint lang-xml"><?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:padding="5px">
+    <TextView android:text="Tracking/Transmission Services Controls" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:text="@string/btn_start_service" android:id="@+id/btn_start_service" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+    <Button android:text="@string/btn_stop_service" android:id="@+id/btn_stop_service" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+    <TextView android:text="Database Operations" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <Button android:text="@string/btn_trigger_upload" android:id="@+id/btn_upload" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+    <Button android:text="@string/btn_reset_db" android:id="@+id/btn_reset_db" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+    <Button android:text="@string/btn_clear_db" android:id="@+id/btn_clear_db" android:layout_height="wrap_content" android:layout_width="match_parent"/>
+</LinearLayout></code></pre>
+
+The interface can be defined in XML and/or directly on the code by declaring and configuring each View using the classes defined in the "reference":http://developer.android.com/reference/android/view/View.html.
+
+h3. Services
+
+Services are used to make tasks that can be totally separated from the main application such as fetching data, interaction with Sensors and Location aquiring tasks. "Intents":http://developer.android.com/reference/android/content/Intent.html are used for communication with the main application and other services. Intents are the equivalent to notifications in Objective-C.
+
+h3. Databases
+
+These hold the data of the application, and are normally accessed using ContentProviders and are accessible by any application if the content Authority is known. The creation of the actual database is normally handled by a class that extends "SQLiteOpenHandler":http://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper.html (which usually comes down to an CREATE SQL query and an upgrade mechanism).

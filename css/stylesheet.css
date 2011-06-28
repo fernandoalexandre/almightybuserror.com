@@ -123,7 +123,7 @@ a {
 
 a:hover {
 	color: #666;
-	background: none;
+	background-color: transparent;
 }
 
 sup {
@@ -161,7 +161,7 @@ sub {
 	display: block;
 	position: relative;
 	width: 200px !important;
-	left: 330px;
+	left: 340px;
 	top: 270px;
 }
 
@@ -605,6 +605,33 @@ img {
 	text-align: center;
 }
 
+.comment_number {
+	display: block;
+	float: left;
+	width:3em;
+	height: 100%;
+	text-align:right;
+	background-image: url('../../../images/comment_baloon_20.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-color: transparent;
+}
+
+.post_date {
+	float: left;
+	display: inline-block;
+	height:100%;
+}
+
+.post_title {
+	margin-bottom: 0.2em;
+}
+
+.post_publish_info {
+	font-size: 80%;
+	margin-bottom: 1.5em;
+}
+
 .post_content ol {
 	list-style-type: decimal;
 	list-style-position: outside;
@@ -613,18 +640,6 @@ img {
 .post_content ul {
 	list-style-position: outside;
 	list-style-type: disc;
-}
-
-.datetime {
-	font-size: 0.8em;
-	line-height: 150%;
-	color: #666;
-	float: left;
-	padding-right: 12px;
-	width: 200px;
-	text-align: right;
-	display: block;
-	/*border-top: 1px #CCC solid;*/
 }
 
 .lightbox {
@@ -661,7 +676,7 @@ img {
 	background: #fff;
 	display: block;
 	float:left;
-	width: 630px;
+	width: auto;
 	padding-left: 46px;
 	padding-right: 11px;
 	border-left: 1px #CCC solid;
@@ -750,7 +765,6 @@ hr::after {
 
 .tags {
 	font-size: 12px;
-	width: 170px;
 	float: right;
 }
 
@@ -771,6 +785,11 @@ hr::after {
 .disqus a {
 	text-decoration: none;
 	background:none;
+}
+
+.dsq_goto_comments {
+	display: inline-block;
+	margin-left:2em;
 }
 
 .dsq-global-toolbar-container {

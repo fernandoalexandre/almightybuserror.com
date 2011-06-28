@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+echo "--- Removing cruft ---"
+rm -r _site
+echo "--- Generating site ---"
+jekyll && cp .htstatic _site/
+echo "--- Compressing static files ---"
+for file in _site/css/*.css; do java -jar tasks/yuicompressor-2.4.2.jar -o $file.back $file; mv $file.back $file; done
+if [[ -x `which 7za` ]]; then
+    find _site \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.xml" \) -type f -exec /bin/sh -c "7za a -mx=9 '{}'.gz '{}'" \;
+else
+    find _site \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.xml" \) -type f -exec /bin/sh -c "gzip -9 -c '{}' > '{}.gz'" \;
+fi;
+echo "--- Uploading site ---"
+rsync -avz --delete _site/ kernl_omg@ssh.phx.nearlyfreespeech.net:/home/public/test/
