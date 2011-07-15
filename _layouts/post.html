@@ -7,10 +7,10 @@ layout: default
         <a href="{{ post.url }}">{{ page.title }}</a>
     </h2>
     <div class="post_publish_info standard_div">
+        <div class="post_date">{{ page.date | date:"%B %d, %Y at %H:%M" }}</div>
         <div class="dsq_goto_comments">
             <a href="{{ post.url }}#disqus_thread" class="dsq-comment-count comment_number"></a>
         </div>
-        <div class="post_date">{{ page.date | date:"%B %d, %Y at %H:%M" }}</div>
     </div>
     <div class="standard_div">{{content}}</div>
     <div class="tags standard_div">

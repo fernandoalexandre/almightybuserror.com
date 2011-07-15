@@ -1,0 +1,113 @@
+---
+layout: post
+title: "Android tethering: Azilink and OSX"
+tags:
+- Android
+- Azilink
+- OSX
+- Tethering
+- Wifi
+- USB
+---
+
+<!-- TOC --!>
+
+h2. Azilink
+
+"Azilink":http://code.google.com/p/azilink/ an application for Android that turns the android into a VPN server (using OpenVPN), which is able to share the Android's internet connection (3G/Wifi/Edge). There are however, some tricks to make it work with OSX.
+
+
+h2. Tunnelblick
+
+"Tunnelblick":http://code.google.com/p/tunnelblick/ is a useful OpenVPN 2 OSX GUI.
+
+
+h2. How-to Steps
+
+1. Download and install the latest "Tunnelblick Beta build":http://code.google.com/p/tunnelblick/wiki/DownloadsEntry?tm=2 (3.2 Beta 22 used) as the stable version (3.1.7) does not set the nameserver correctly.
+
+2. Get the ZIP bundle from "Azilink":http://code.google.com/p/azilink/ and install the application on your Android (2.0.2 used).
+
+3. In case you don't have Android SDK installed the bundle has a copy of ADB so you can configure it correctly.
+
+4. Open azilink.ovpn and comment out the "socket_flags" line using a "#" as
+   follows:
+
+<pre><code class="prettyprint">dev tun
+remote 127.0.0.1 41927 tcp-client
+proto tcp-client
+ifconfig 192.168.56.2 192.168.56.1
+route 0.0.0.0 128.0.0.0
+route 128.0.0.0 128.0.0.0
+#socket-flags TCP_NODELAY
+#keepalive 10 30
+ping 10
+dhcp-option DNS 192.168.56.1</code></pre>
+
+5. Add the azilink.ovpn configuration to Tunnelblick
+
+6. Create a bash script with the following content:
+
+<pre><code class="prettyprint lang-bash">#!/bin/bash
+#
+# azilink for OS X
+
+init() {
+    adb forward tcp:41927 tcp:41927
+}
+
+up() {
+    tun_dev=$1
+    ns=192.168.56.1
+    sudo scutil << EOF
+open
+d.init
+get State:/Network/Interface/$tun_dev/IPv4
+d.add InterfaceName $tun_dev
+set State:/Network/Service/openvpn-$tun_dev/IPv4
+
+d.init
+d.add ServerAddresses * $ns
+set State:/Network/Service/openvpn-$tun_dev/DNS
+quit
+EOF
+}
+
+down() {
+    tun_dev=$1
+    sudo scutil << EOF
+open
+remove State:/Network/Service/openvpn-$tun_dev/IPv4
+remove State:/Network/Service/openvpn-$tun_dev/DNS
+quit
+EOF
+}
+
+case $1 in
+    up  ) up $2 ;;  # openvpn will pass tun/tap dev as $2
+    down) down $2 ;;
+    *   ) init ;;
+esac</code></pre>
+
+Make sure adb is in the PATH or edit the script itself to point to the right place.
+
+7. Go to Settings in Tunnelblick and make sure it is as follows:
+
+!/images/posts/azilink_setting.png!
+
+8. Run the bash script, the Azilink Android application and turn the service ON and finally connect Tunnelblick.
+
+Note that to make sure the DNS is correctly configured use on the terminal the command:
+<pre><code class="prettyprint">scutil --DNS</code></pre>
+
+It should print:
+
+<pre><code class="prettyprint">DNS configuration
+
+resolver #1
+  nameserver[0] : 192.168.56.1
+  order   : 200000
+(...)
+</code></pre>
+
+Also note you should have the Airport turned off.

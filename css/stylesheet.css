@@ -619,8 +619,8 @@ img {
 
 .post_date {
 	float: left;
-	display: inline-block;
-	height:100%;
+	display: block;
+	height: 100%;
 }
 
 .post_title {
@@ -673,9 +673,7 @@ img {
 }
 
 .post_content {
-	background: #fff;
 	display: block;
-	float:left;
 	width: auto;
 	padding-left: 46px;
 	padding-right: 11px;
