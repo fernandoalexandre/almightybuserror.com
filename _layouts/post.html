@@ -14,7 +14,7 @@ layout: default
     </div>
     <div class="standard_div">{{content}}</div>
     <div class="tags standard_div">
-            Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase }}">{{ tag }}</a> {% endfor %}
+            Tags:&nbsp;{% for tag in (page.tags) %} <a href="/tag.html#{{ tag | downcase | replace: " ", "_"  }}">{{ tag }}</a> {% endfor %}
     </div>
     <hr />
     <div class="post disqus">

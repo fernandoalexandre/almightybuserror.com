@@ -1,0 +1,18 @@
+---
+layout: default
+title: Tags
+---
+
+<div id="tags">
+    <h1 class="taglist">Tags</h1>
+    <div class="taglist">
+    {% for tag in site.iterable.tags %}
+        <h2 class="taglist" id="{{ tag.name | downcase | replace: " ", "_" }}">{{tag.name}}</h2>
+        <ul class="posts">
+        {% for post in tag.posts %}
+            <li><span style="font-weight:bold;">{{ post.date | date:"%b %d, %Y" }}</span> <a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+    </div>
+</div>
