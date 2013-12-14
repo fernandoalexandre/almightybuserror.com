@@ -7,7 +7,7 @@ tags:
 - RMI
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 The Java RMI(Remote Method Invocation) is a way to create distributed services. It is composed of RMIRegistry which is a name registry which saves the resources available (servers) in a JVM(Java Virtual Machine). The registry is, however, accessible through different JVM(Java Virtual Machine)'s when configured.
 

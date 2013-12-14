@@ -7,7 +7,7 @@ tags:
 - TCP
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 The TCP(Transmission Control Protocol) and unlike UDP(User Datagram Protocol) it does have a connection definition within the protocol based on Acknowledge-type packets.
 

@@ -6,7 +6,7 @@ tags:
 - Tables
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 To create a table in LaTex you can just use a tabular block, or use a tabular block and a table wrapper block.
 

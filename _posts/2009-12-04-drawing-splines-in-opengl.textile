@@ -10,7 +10,7 @@ tags:
 - Catmull-Rom
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 This article will cover the basics of drawing bezier curves in openGL and how to convert from other curves to Bezier, such as Bspline and Catmull-Rom curves.
 

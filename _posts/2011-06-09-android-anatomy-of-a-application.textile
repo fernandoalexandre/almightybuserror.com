@@ -6,7 +6,7 @@ tags:
 - Basics
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 This article's objective is to present the elements that an Android application usually contains and how they interact.
 

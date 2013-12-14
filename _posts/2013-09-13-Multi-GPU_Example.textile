@@ -1,0 +1,83 @@
+---
+layout: post
+title: "Efficient Multi-GPU Programming in OpenCL"
+tags:
+- Multi-GPU
+- OpenCL
+- C++
+---
+
+<!-- TOC -->
+
+I have recently been developing a library regarding efficient execution on multiple Graphics Processing Units (GPUs), in the context of my MSc thesis, and it became obvious that there is a lack of educational resources on the efficient orchestration of computations using multiple GPUs. This article does not address the optimization of the actual GPU computations (or Kernels) as these commonly involve hardware-specific optimizations.
+
+We start with a brief presentation of the GPU architecture, followed by the OpenCL technology and finally how it offers multi-GPU support and how to efficiently harness it.
+
+h4. GPU Architecture
+
+A GPU is a co-processor designed to deal with graphics operations, commonly known for their massive parallelism, due to the large number of pixels to be processed. To achieve high performance, the GPUs are equipped with a large number of relatively weak processors, which enable large-scale parallelism, as shown in the following figure:
+
+!FIGURE!
+
+The use of these devices for general computations is currently a hot research topic because its processing power is very attractive to a category of problems where it is possible to decompose and parallelize the workload, such as simulations and image processing algorithms.
+
+h4. OpenCL
+
+OpenCL is an open standard for computation accelerators, not only supporting GPUs, but also CPUs and FPGAs. Supporting these heterogeneous architectures requires an uniform programming model, which is mainly partitioned in two disjoint memory spaces: host and device.
+
+*Host* space (or CPU) creates and manages the resources required for an OpenCL computation, such as contexts, device memory locations and command queues. Using these resources, the host is then responsible for the efficient orchestration of the computations themselves, triggering data-transfers and computations on the device(s).
+
+*Device* space (GPU or others) is responsible for the execution of a computation, or kernel, within an accelerator, using a Single Instruction Multiple Data (SIMD) paradigm. Kernels are written using a C-variant with extra qualifiers, used to define the location of memory, such as __global or __local, as there are multiple types of memory (including explicit control over caches). This low-level control implies the possibility for fine-grained optimization for each architecture, although this requires prior knowledge to the architecture which will be used.
+
+h5. Programming Model
+
+-> Programming model -> context -> command queue -> create memory -> data-transfer -> enqueueNDRange -> data-transfer -> wait to finish.
+
+Programming in OpenCL begins with the creation of a kernel that will be execution in a device as presented below.
+
+<pre><code class="prettyprint">__kernel void saxpy(__global float *X, __global float *Y, const float a, __global float *out)
+{
+	int pos = get_global_id(0);
+	float x = X[pos];
+	float y = Y[pos];
+	out[pos] = a * x + y;
+}</code></pre>
+
+This is a simple kernel, implementing SAXPY: a matrix operation which is part of the "Basic Linear Algebra Subprograms":http://en.wikipedia.org/wiki/Basic_Linear_Algebra_Subprograms (BLAS), where applying the formula:
+
+<pre><code class="prettyprint">Z[i] = alpha*X[i] + Y[i]</code></pre>
+where _alpha_ is a scalar value.
+
+h5. Performance
+
+*Context organization* plays an important role when trying to obtain good performance when dealing with certain implementations of OpenCL in my experience. The performance behavior does seem to vary among driver versions/device vendor, as such there are three main ways to organize these contexts, as shown in the figure below:
+
+!FIGURE!
+
+
+h5. Multi-GPU
+
+
+h4. Saxpy
+
+
+
+<pre><code class="prettyprint">#include <stdlib.h>
+...
+int example_read(const char * _name, char * _buf, size_t _count,
+				off_t _offset, struct fuse_file_info * _fi) {
+	char * data;
+	int * fd;
+	int read;
+
+	fd = open(_name, O_RDONLY);
+	// Obtains a pointer aligned with 512 with a power of 512 size. 
+	data = memalign(512, 512 * (_count/512 + (_count % 512 == 0 ? 0 : 1)) );
+	read = pread(fd, data, _count);
+
+	_buf = data;
+	close(fd);
+	return read;
+}</code></pre>
+
+

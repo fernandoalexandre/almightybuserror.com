@@ -1,0 +1,220 @@
+---
+layout: post
+title: "Computer to Android Bluetooth Communication"
+tags:
+- Android
+- Bluetooth
+- BlueCove
+- Java
+---
+
+<!-- TOC -->
+
+Bluetooth is a wireless communication technology that is much more limited spatially than WI-FI which can be seen as a limitation or an advantage (for proximity-aware applications) and uses less power than WI-FI. Bluetooth communication between Android devices is very well documented in the "Android SDK":http://developer.android.com/guide/topics/wireless/bluetooth.html, communication between different types of devices, however, is not.
+
+This article regards how a Java-enabled device can communicate using RFCOMM (serial-port communication) to an Android device using the Java "BlueCove Bluetooth Framework":http://bluecove.org/. When testing there was an issue with Snow Leopard, a "BlueCove Snapshot":http://snapshot.bluecove.org/distribution/download/2.1.1-SNAPSHOT/2.1.1-SNAPSHOT.63/ was used instead of the stable.
+
+The example used in this article can be found in "GitHub":https://github.com/kernl/PC-to-Android-Bluetooth-Example.
+
+h2. Bluetooth Basics
+
+An Bluetooth device has a set of services uniquely identified by "UUID's":http://en.wikipedia.org/wiki/Universally_unique_identifier. Each service represents a feature the device can currently provide (i.e. Telephony, File Transfer).
+
+Bluetooth communication requires both ends to know each other and be paired. Pairing is a mechanism to ensure the device that is connecting to is the correct one.
+
+So a pair of devices to see each other for the first time, they have to be _discovered_. A device have to be set as _discoverable_ and the other device has to preform a discovery which will detect all discoverable devices in range.
+
+All the requests to the Bluetooth API in both Android and BlueCove are event-driven and handled by Listeners.
+
+h2. Android Server
+
+The Android device will act as a server, receiving a connection. After a connection is received it listens for a message in _String_ format and displays it on the screen (by communicating with the interface using "Intents":http://developer.android.com/reference/android/content/Intent.html).
+
+h3. Request Discoverable Status
+
+To request Bluetooth discoverability, Intents are used with an extra field specifying how many seconds it will be discoverable. The Intent will trigger a dialog to the user requesting permission. The variable _result_ will save the response code of the user by reference.
+
+<pre><code class="prettyprint">public void requestBTDiscoverable() {
+	Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+	i.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+
+	startActivityForResult(i, REQ);
+
+	int result = 0;
+
+	this.onActivityResult(REQ, result, i);
+	Log.i(TAG, "Bluetooth discoverability enabled");
+}</code></pre>
+
+h3. Listening for Connection
+
+Listening for an Bluetooth connection requires _BluetoothServerSocket_. It can be regarded as a a _BluetoothSocket_ factory. All the following code is run in a seperate thread:
+
+<pre><code class="prettyprint">public AcceptThread() {
+	BluetoothServerSocket tmp = null;
+	try {
+		tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(ACCEPT_TAG,
+				UUID.fromString(defaultUUID));
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	mServerSocket = tmp;
+}</code></pre>
+
+When the thread is started, it locks waiting for a connection, in an permanent loop (until the server is turned off). When a connection is accepted it reads an UTF message and notifies the interface that a message has been received and its content.
+
+<pre><code class="prettyprint">public void run() {
+	BluetoothSocket socket = null;
+	while (true) {
+		try {
+			Log.i(ACCEPT_TAG, "Listening for a connection...");
+
+			socket = mServerSocket.accept();
+			Log.i(ACCEPT_TAG, "Connected to " + socket.getRemoteDevice().getName());
+
+		} catch (IOException e) {
+			break;
+		}
+		// If a connection was accepted
+		if (socket != null) {
+			// Do work to manage the connection (in a separate thread)
+			try {
+				// Read the incoming string.
+				String buffer;
+
+				DataInputStream in = new DataInputStream(socket.getInputStream());
+
+				buffer = in.readUTF();
+
+				Intent i = new Intent(MESSAGE_RECEIVED_INTENT);
+				i.putExtra("Message", String.format("%s\n From: %s", buffer, socket.getRemoteDevice().getName()));
+
+				getBaseContext().sendBroadcast(i);
+			} catch (IOException e) {
+				Log.e(ACCEPT_TAG, "Error obtaining InputStream from socket");
+				e.printStackTrace();
+			}
+			try {
+				mServerSocket.close();
+			} catch (IOException e) { }
+			break;
+		}
+}</code></pre>
+
+h2. Client
+
+The client will actively detect all the servers in range and comunicating with them. The discovery is made by attaching a pre-determined prefix to a device name and removing it when the server stops executing. All devices containing the prefix in the name and a RFCOMM service will be contacted.
+
+h3. Device Discovery
+
+The following code shows the asynchronous request for bluetooth device discovery:
+
+<pre><code class="prettyprint">protected void findDevices() {
+	try {
+		devices              = new Vector<RemoteDevice>();
+		LocalDevice local    = LocalDevice.getLocalDevice();
+		DiscoveryAgent agent = local.getDiscoveryAgent();
+
+		agent.startInquiry(DiscoveryAgent.GIAC, this);
+		debugString("Starting device discovery...");
+	}catch(Exception e) {
+		debugString("Error initiating discovery.");
+	}
+}</code></pre>
+
+Whenever a Bluetooth device is found, the reference is saved on a list (if it has the prefix) so it can be iterated later for a service discovery:
+
+<pre><code class="prettyprint">public void deviceDiscovered(RemoteDevice arg0, DeviceClass arg1) {
+	try {
+		String name = arg0.getFriendlyName(true);
+
+		debugString("Found device: " + name);
+
+		if(name.startsWith("BT_")) {
+			devices.add(arg0);
+		}
+	} catch (IOException e) {
+		debugString("Failed to get remoteDevice Name.");
+	}
+}</code></pre>
+
+When the client stops discovery mode, the service discovery is started so only actual devices with the server running are contacted.
+
+<pre><code class="prettyprint">public void inquiryCompleted(int arg0) {
+	debugString("Inquiry Completed.");
+
+	// Start service probing
+	for(RemoteDevice d :devices) {
+		findServices(d);
+	}
+}</code></pre>
+
+h3. Service Discovery
+
+Finding services is accomplished by defining the UUID's of interest, adding them to an _Array_ and passing them to the _searchServices_:
+
+<pre><code class="prettyprint">protected void findServices(RemoteDevice device) {
+	try {
+		UUID[] uuids  = new UUID[1];
+		uuids[0]      = defaultUUID;    //The UUID of the each service
+		local         = LocalDevice.getLocalDevice();
+		agent         = local.getDiscoveryAgent();
+
+		agent.searchServices(null, uuids, device, this);
+		debugString("Starting Service Discovery...");
+	} catch(Exception e){
+		debugString("Error finding services.");
+	}
+}</code></pre>
+
+When a service is discovered the reference is saved on a list so it can be iterated over when broadcasting a message:
+
+<pre><code class="prettyprint">public void servicesDiscovered(int arg0, ServiceRecord[] arg1) {
+	for(ServiceRecord x : arg1) {
+		services.add(x);
+	}
+}</code></pre>
+
+When all services are discovered, broadcast "Hello world!".
+
+<pre><code class="prettyprint">public void serviceSearchCompleted(int arg0, int arg1) {
+	debugString("Service search completed.");
+
+	broadcastCommand(new String("Hello world!"));
+}</code></pre>
+
+
+
+h3. Bluetooth Connection
+
+The following code shows how to make a connection and send information to it. Though the Android SDK mentions connections being encrypted it was impossible to connect (when testing) with secure options.
+
+<pre><code class="prettyprint">public void broadcastCommand(String str) {
+	for(ServiceRecord sr : services) {
+		String url = sr.getConnectionURL(ServiceRecord.NOAUTHENTICATE_NOENCRYPT, false);
+
+		conn = null;
+
+		try {
+			debugString("Sending command to " + url);
+
+			conn = (StreamConnection) Connector.open(url);
+			dout = new DataOutputStream(conn.openOutputStream());
+
+			dout.writeUTF(str);
+			debugString(String.format("Sending %s", str));
+
+			dout.flush();
+			dout.close();
+			conn.close();
+
+			debugString("Sent. Connection Closed.");
+
+	    } catch (Exception e) {
+			debugString("Failed to connect to " + url);
+		    e.printStackTrace();
+		}
+	}
+}</code></pre>
+
+Thank you for reading! Comments are welcome.

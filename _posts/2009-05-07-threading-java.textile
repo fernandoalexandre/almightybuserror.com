@@ -6,7 +6,7 @@ tags:
 - Java
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 A thread is a lightweight process that will act as the child of the process that created it. If the parent process is interrupted the child will be inherited by the kernel process, however, most of the times when the parent dies and child loses its purpose.
 A thread will seemingly run at the same time as the other processes which raises concurrency issues but this won't be discussed in this article.

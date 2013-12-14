@@ -9,7 +9,7 @@ tags:
 - Textile
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 Even though there haven't been any posts, Almighty bus error has been getting updates in its design/presentation perspective. This post will present what's new aswell as the underlying technologies behind Almighty Bus Error.
 

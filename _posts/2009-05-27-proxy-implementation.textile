@@ -8,7 +8,7 @@ tags:
 - Java
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 Continuing from ""Concept Introduction":http://almightybuserror.com/post/107781290/http-proxy-concept-introduction" we will now see how a possible implementation is done.
 

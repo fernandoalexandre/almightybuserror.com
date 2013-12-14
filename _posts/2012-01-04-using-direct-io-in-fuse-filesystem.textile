@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Using Direct I/O in FUSE Filesystem"
+tags:
+- DirectIO
+- FUSE
+- Filesystem
+- C
+---
+
+While creating a filesystem using FUSE (version 2.8.3) for operating systems class, I was confronted with a problem, which manifested by ignoring read data even though the correct read size is returned (less than requested when _EOF_ or the requested size) and the data buffer is set with the read data.
+
+After investigating the issue for some time, the only solution mentioned was the usage of Direct I/O. However whenever I tried to open the file in fuse with _==direct_io==_ enabled and tried to read, a segmentation fault would occur.
+
+"Direct Memory Access":http://en.wikipedia.org/wiki/Direct_memory_access:
+<blockquote><span class="qstart">&#8220;</span>Direct memory access (DMA) is a feature of modern computers that allows certain hardware subsystems within the computer to access system memory independently of the central processing unit (CPU).<span class="qend">&#8221;</span></blockquote>
+
+Using _==direct_io==_ requires that every system call which deals with "Direct Memory Access":http://en.wikipedia.org/wiki/Direct_memory_access (e.g. file read functions) must use aligned memory. Aligned buffer can be obtained by using "memalign":http://linux.about.com/library/cmd/blcmdl3_memalign.htm function (or "posix_memalign":http://linux.die.net/man/3/memalign).
+
+The following example is a simplified version of the solution, the file to be read must have the _==direct_io==_ set to 1 in the _fuse_file_info_ structure. Setting _==direct_io==_ must be done in fuse open function.
+
+<pre><code class="prettyprint">#include <stdlib.h>
+...
+int example_read(const char * _name, char * _buf, size_t _count,
+				off_t _offset, struct fuse_file_info * _fi) {
+	char * data;
+	int * fd;
+	int read;
+
+	fd = open(_name, O_RDONLY);
+	// Obtains a pointer aligned with 512 with a power of 512 size. 
+	data = memalign(512, 512 * (_count/512 + (_count % 512 == 0 ? 0 : 1)) );
+	read = pread(fd, data, _count);
+
+	_buf = data;
+	close(fd);
+	return read;
+}</code></pre>
+
+
+Thank you for reading, comments are welcome!

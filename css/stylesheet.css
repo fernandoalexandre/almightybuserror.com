@@ -452,8 +452,9 @@ h5 {
 }
 
 #home {
-	padding-left: 5em;
-	padding-right: 5em;
+	margin: auto;
+	width: 79ex;
+
 }
 
 .title_date {
@@ -624,6 +625,7 @@ img {
 }
 
 .post_title {
+	line-height: 1.0;
 	margin-bottom: 0.2em;
 }
 
@@ -674,10 +676,8 @@ img {
 
 .post_content {
 	display: block;
-	width: auto;
-	padding-left: 46px;
-	padding-right: 11px;
-	border-left: 1px #CCC solid;
+	width: 79ex;
+	margin: auto;
 }
 
 a .notes {

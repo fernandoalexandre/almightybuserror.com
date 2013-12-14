@@ -6,7 +6,7 @@ tags:
 - Introduction
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 From "Wikipedia":http://en.wikipedia.org/wiki/Huffman_coding:
 

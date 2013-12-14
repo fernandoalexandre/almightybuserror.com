@@ -6,7 +6,7 @@ tags:
 - Python
 ---
 
-<!-- TOC --!>
+<!-- TOC -->
 
 In Python, to create and maintain a FTP(File Transfer Protocol) communication, the "ftplib":http://docs.python.org/library/ftplib.html or "urllib":http://docs.python.org/library/urllib.html (explained in a future post) can be used.
 
